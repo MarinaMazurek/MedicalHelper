@@ -1,0 +1,19 @@
+﻿@model List<MedicalHelper.Models.UserProfileViewModel>
+
+<div>
+    <tr>
+        @foreach (var userProfile in Model)
+        {
+            <p>
+            <th>@userProfile.Id</th>
+            <th>@userProfile.FullName</th>
+            <th>@userProfile.FirstName</th>
+            <th>@userProfile.LastName</th>
+            <th>@userProfile.DataOfBirth</th>
+            <th>@userProfile.AvatarUrl</th>
+            <th>@userProfile.Address</th>
+            </p>
+        }
+    </tr>    
+</div>
+

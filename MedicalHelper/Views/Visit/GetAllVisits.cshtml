@@ -1,0 +1,16 @@
+﻿@model List<MedicalHelper.Models.VisitViewModel>
+
+<div>
+    <tr>
+        @foreach (var visit in Model)
+        {
+            <p>
+            <th>@visit.SpecializationOfDoctor</th>
+            <th>@visit.FullNameOfDoctor</th>
+            <th>@visit.DateTime</th>
+            <th>@visit.Medicines</th>            
+            </p>
+        }
+    </tr>
+</div>
+

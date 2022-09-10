@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalHelper.Migrations
 {
     [DbContext(typeof(MedicalHelperDbContext))]
-    [Migration("20220830072828_firstf")]
-    partial class firstf
+    [Migration("20220910073753_visits")]
+    partial class visits
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,29 +23,6 @@ namespace MedicalHelper.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("MedicalHelper.EfStaff.Model.Doctor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VisitId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VisitId")
-                        .IsUnique();
-
-                    b.ToTable("Doctor");
-                });
 
             modelBuilder.Entity("MedicalHelper.EfStaff.Model.Medicine", b =>
                 {
@@ -58,11 +35,16 @@ namespace MedicalHelper.Migrations
                     b.Property<int>("Cost")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameOfMedicine")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("VisitId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("VisitId");
 
                     b.ToTable("Medicines");
                 });
@@ -79,7 +61,7 @@ namespace MedicalHelper.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -166,10 +148,11 @@ namespace MedicalHelper.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
+                    b.Property<string>("FullNameOfDoctor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("SpecializationOfDoctor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -183,11 +166,11 @@ namespace MedicalHelper.Migrations
                     b.ToTable("Visits");
                 });
 
-            modelBuilder.Entity("MedicalHelper.EfStaff.Model.Doctor", b =>
+            modelBuilder.Entity("MedicalHelper.EfStaff.Model.Medicine", b =>
                 {
                     b.HasOne("MedicalHelper.EfStaff.Model.Visit", "Visit")
-                        .WithOne("Doctor")
-                        .HasForeignKey("MedicalHelper.EfStaff.Model.Doctor", "VisitId")
+                        .WithMany("Medicines")
+                        .HasForeignKey("VisitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -239,8 +222,7 @@ namespace MedicalHelper.Migrations
 
             modelBuilder.Entity("MedicalHelper.EfStaff.Model.Visit", b =>
                 {
-                    b.Navigation("Doctor")
-                        .IsRequired();
+                    b.Navigation("Medicines");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,3 +1,7 @@
+using MedicalHelper.EfStaff;
+using MedicalHelper.EfStaff.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace MedicalHelper
 {
     public class Program
@@ -8,6 +12,13 @@ namespace MedicalHelper
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<MedicalHelperDbContext>();
+            builder.Services.AddScoped<UserRepository, UserRepository>();
+            builder.Services.AddScoped<UserProfileRepository, UserProfileRepository>();
+            builder.Services.AddScoped<VisitRepository, VisitRepository>();
+
+
 
             var app = builder.Build();
 

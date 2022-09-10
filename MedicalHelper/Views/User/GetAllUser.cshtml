@@ -1,0 +1,15 @@
+﻿@model List<MedicalHelper.Models.UserViewModel>
+
+
+<div>  
+    <tr>
+        @foreach (var user in Model)
+        {
+            <p>                
+                <th>@user.Id</th>
+                <th>@user.Login</th>
+                <th>@user.PasswordHash</th>                  
+            </p>
+        }
+    </tr>
+</div>

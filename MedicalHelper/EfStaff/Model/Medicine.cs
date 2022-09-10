@@ -2,10 +2,10 @@
 {
     public class Medicine:BaseModel
     { 
-        public string Name { get; set; }
+        public string NameOfMedicine { get; set; }
         public int Cost { get; set; }
 
-        public int DoctorId { get; set; }
-        public Doctor Doctor { get; set; }
+        public int VisitId { get; set; }
+        public Visit Visit { get; set; }
     }
 }

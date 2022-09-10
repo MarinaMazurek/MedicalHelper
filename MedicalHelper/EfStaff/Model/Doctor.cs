@@ -2,10 +2,19 @@
 {
     public class Doctor: BaseModel
     {
-        public string Name { get; set; }
-
-        public virtual Visit Visit { get; set; }
-        public virtual List<Medicine> Medicines { get; set; }
-
+        public string FullName { get; set; }
+        public string Specialization { get; set; }
+                
     }
+
+    public enum Doctors
+    {
+        therapist,
+        surgeon,
+        dental,
+        neurologist,
+        ophthalmologist,
+        otolaryngologist
+    }       
+
 }

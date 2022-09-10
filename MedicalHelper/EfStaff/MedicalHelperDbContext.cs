@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Collections.Generic;
 using System.Data;
 
-namespace MedicalHelper.EfStaff.Repositories
+namespace MedicalHelper.EfStaff
 {
-    public class MedicalHelperDbContext:DbContext
+    public class MedicalHelperDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
@@ -47,19 +47,18 @@ namespace MedicalHelper.EfStaff.Repositories
                .Entity<User>()
                .HasMany(u => u.Visits)
                .WithOne(p => p.User)
-               .OnDelete(DeleteBehavior.Cascade);
+               .OnDelete(DeleteBehavior.Cascade);                      
 
             modelBuilder
-                .Entity<Visit>()
-                .HasOne(u => u.Doctor)
-                .WithOne(p => p.Visit)
-                .HasForeignKey<Visit>(p => p.DoctorId);
-
-            modelBuilder
-           .Entity<Doctor>()
+           .Entity<Visit>()
            .HasMany(u => u.Medicines)
-           .WithOne(p => p.Doctor)
+           .WithOne(p => p.Visit)
            .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder
+            //.Entity<UserProfile>()
+            //.Property(p => p.FullName)
+            //.HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
         }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)

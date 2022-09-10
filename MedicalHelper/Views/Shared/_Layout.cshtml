@@ -25,6 +25,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="GetUser">GetUser</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="GetAllUser">GetAllUser</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="UserProfile" asp-action="GetUserProfile">GetUserProfile</a>
+                        </li>
+                        <li  class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="UserProfile" asp-action="GetAllUserProfile">GetAllUserProfile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Visit" asp-action="GetVisit">GetVisit</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Visit" asp-action="GetAllVisits">GetAllVisits</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="UserProfile" asp-action="UserProfileAdd">UserProfileAdd</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -33,6 +54,10 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            <input class="button"
+                   type="button"
+                   value="Visit Delete"
+                   onclick="location.href='/Visit/VisitDelete?id=1'" />
         </main>
     </div>
 

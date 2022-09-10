@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalHelper.Migrations
 {
     [DbContext(typeof(MedicalHelperDbContext))]
-    [Migration("20220830072828_firstf")]
-    partial class firstf
+    [Migration("20220906180941_one")]
+    partial class one
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,17 +32,15 @@ namespace MedicalHelper.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("VisitId")
-                        .HasColumnType("int");
+                    b.Property<string>("Specialization")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("VisitId")
-                        .IsUnique();
 
                     b.ToTable("Doctor");
                 });
@@ -58,11 +56,16 @@ namespace MedicalHelper.Migrations
                     b.Property<int>("Cost")
                         .HasColumnType("int");
 
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
 
                     b.ToTable("Medicines");
                 });
@@ -79,7 +82,7 @@ namespace MedicalHelper.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -178,20 +181,23 @@ namespace MedicalHelper.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DoctorId")
+                        .IsUnique();
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Visits");
                 });
 
-            modelBuilder.Entity("MedicalHelper.EfStaff.Model.Doctor", b =>
+            modelBuilder.Entity("MedicalHelper.EfStaff.Model.Medicine", b =>
                 {
-                    b.HasOne("MedicalHelper.EfStaff.Model.Visit", "Visit")
-                        .WithOne("Doctor")
-                        .HasForeignKey("MedicalHelper.EfStaff.Model.Doctor", "VisitId")
+                    b.HasOne("MedicalHelper.EfStaff.Model.Doctor", "Doctor")
+                        .WithMany("Medicines")
+                        .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Visit");
+                    b.Navigation("Doctor");
                 });
 
             modelBuilder.Entity("MedicalHelper.EfStaff.Model.UserProfile", b =>
@@ -218,13 +224,29 @@ namespace MedicalHelper.Migrations
 
             modelBuilder.Entity("MedicalHelper.EfStaff.Model.Visit", b =>
                 {
+                    b.HasOne("MedicalHelper.EfStaff.Model.Doctor", "Doctor")
+                        .WithOne("Visit")
+                        .HasForeignKey("MedicalHelper.EfStaff.Model.Visit", "DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MedicalHelper.EfStaff.Model.User", "User")
                         .WithMany("Visits")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Doctor");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MedicalHelper.EfStaff.Model.Doctor", b =>
+                {
+                    b.Navigation("Medicines");
+
+                    b.Navigation("Visit")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MedicalHelper.EfStaff.Model.User", b =>
@@ -235,12 +257,6 @@ namespace MedicalHelper.Migrations
                     b.Navigation("Vaccinations");
 
                     b.Navigation("Visits");
-                });
-
-            modelBuilder.Entity("MedicalHelper.EfStaff.Model.Visit", b =>
-                {
-                    b.Navigation("Doctor")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
