@@ -3,24 +3,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedicalHelper.EfStaff.Repositories
 {
-    public class UserRepository
+    public class MedicineRepository
     {
         public MedicalHelperDbContext _dbContext;
-       
-        public DbSet<User> _dbSet;
-       
-        public UserRepository(MedicalHelperDbContext dbContext)
+
+        public DbSet<Medicine> _dbSet;
+
+        public MedicineRepository(MedicalHelperDbContext dbContext)
         {
             _dbContext = dbContext;
-            _dbSet = dbContext.Set<User>();
+            _dbSet = dbContext.Set<Medicine>();
         }
 
-        public User Get(int id)
+        public Medicine GetMedicine(int id)
         {
             return _dbSet.SingleOrDefault(x => x.Id == id);
         }
 
-        public List<User> GetAll()
+        public List<Medicine> GetAllMedicine()
         {
             return _dbSet.ToList();
         }

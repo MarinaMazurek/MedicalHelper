@@ -36,7 +36,7 @@ namespace MedicalHelper.Controllers
             userProfile.AvatarUrl = viewModel.AvatarUrl;
             userProfile.Address = viewModel.Address;
             userProfile.FullName = viewModel.FirstName + " " + viewModel.LastName;
-           
+
             _userProfileRepository.Add(userProfile);
 
             return RedirectToAction("GetAllUserProfile");            

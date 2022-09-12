@@ -17,6 +17,9 @@ namespace MedicalHelper
             builder.Services.AddScoped<UserRepository, UserRepository>();
             builder.Services.AddScoped<UserProfileRepository, UserProfileRepository>();
             builder.Services.AddScoped<VisitRepository, VisitRepository>();
+            builder.Services.AddScoped<MedicineRepository, MedicineRepository>();
+            builder.Services.AddScoped<VaccinationRepository, VaccinationRepository>();
+
 
 
 

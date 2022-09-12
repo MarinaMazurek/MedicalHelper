@@ -1,0 +1,31 @@
+﻿
+
+@model MedicalHelper.Models.Visit.VisitAddViewModel
+
+<form action="/Visit/VisitAdd" method="post">
+    <div class="field-box">
+        <div class="filed-name">
+            Enter Specialization Of Doctor
+        </div>
+        <div class="field-value">
+            @Html.TextBoxFor(x => x.SpecializationOfDoctor)           
+        </div>
+    </div>
+    <div class="field-box">
+        <div class="filed-name">
+            Enter FullName of Doctor
+        </div>
+        <div class="field-value">
+            @Html.TextBoxFor(x => x.FullNameOfDoctor)
+        </div>
+    </div>
+    <div class="field-box">
+        <div class="filed-name">
+            Enter Data of visit
+        </div>
+        <div class="field-value">
+            @Html.TextBoxFor(x => x.DateTime)
+        </div>    
+    </div>    
+    <div> <input type="submit" value="Add" /></div>
+</form>

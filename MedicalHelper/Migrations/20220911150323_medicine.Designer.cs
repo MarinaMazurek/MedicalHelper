@@ -4,6 +4,7 @@ using MedicalHelper.EfStaff;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalHelper.Migrations
 {
     [DbContext(typeof(MedicalHelperDbContext))]
-    partial class MedicalHelperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220911150323_medicine")]
+    partial class medicine
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,13 +32,13 @@ namespace MedicalHelper.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<double>("Cost")
-                        .HasColumnType("float");
+                    b.Property<int>("CostOfMedicine")
+                        .HasColumnType("int");
 
-                    b.Property<double>("FullCost")
-                        .HasColumnType("float");
+                    b.Property<int>("FullCostOfMedicine")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameOfMedicine")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

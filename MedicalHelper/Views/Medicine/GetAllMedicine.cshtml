@@ -1,0 +1,15 @@
+﻿@model List<MedicalHelper.Models.MedicineViewModel>
+
+<div>
+    <tr>
+        @foreach (var medicine in Model)
+        {
+            <p>
+            <th>@medicine.Name</th>
+            <th>@medicine.Cost</th>
+            <th>@medicine.FullCost</th>
+            </p>
+        }
+    </tr>
+</div>
+

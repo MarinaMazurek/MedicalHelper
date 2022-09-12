@@ -21,10 +21,15 @@ namespace MedicalHelper.EfStaff.Repositories
                 .FirstOrDefault();
         }
 
+        public void Add(Visit visit)
+        {
+            _dbSet.Add(visit);
+            _dbContext.SaveChanges();
+        }
+
         public List<Visit> GetAllVisits()
         {
             return _dbSet.ToList();
         }
-
     }
 }

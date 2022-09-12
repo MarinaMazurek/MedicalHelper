@@ -12,7 +12,7 @@ namespace MedicalHelper.EfStaff
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<Visit> Visits { get; set; }
-        public DbSet<Vaccination> Vaccination { get; set; }
+        public DbSet<Vaccination> Vaccinations { get; set; }
 
         private const string ConnectingString =
             "Server=(localdb)\\MSSQLLocalDB;" +
@@ -50,10 +50,10 @@ namespace MedicalHelper.EfStaff
                .OnDelete(DeleteBehavior.Cascade);                      
 
             modelBuilder
-           .Entity<Visit>()
-           .HasMany(u => u.Medicines)
-           .WithOne(p => p.Visit)
-           .OnDelete(DeleteBehavior.Cascade);
+                .Entity<Visit>()
+                .HasMany(u => u.Medicines)
+                .WithOne(p => p.Visit)
+                .OnDelete(DeleteBehavior.Cascade);
 
             //modelBuilder
             //.Entity<UserProfile>()
