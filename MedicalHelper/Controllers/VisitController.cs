@@ -1,18 +1,21 @@
-﻿using MedicalHelper.EfStaff.Model;
-using MedicalHelper.EfStaff.Repositories;
+﻿using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Models;
 using MedicalHelper.Models.Visit;
+using MedicalHelper.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHelper.Controllers
 {
     public class VisitController : Controller
     {
-        public VisitRepository _visitRepository;
+        private readonly VisitRepository _visitRepository;
+        private readonly UserService _userService;
 
-        public VisitController(VisitRepository visitRepository)
+        public VisitController(VisitRepository visitRepository, UserService userService)
         {
             _visitRepository = visitRepository;
+            _userService = userService;
         }
 
 
@@ -27,9 +30,11 @@ namespace MedicalHelper.Controllers
         [HttpPost]
         public IActionResult VisitAdd(VisitAddViewModel viewModel)
         {
+            var user = _userService.GetCurrentUserAsync();
+
             var visit = new Visit();
 
-            visit.UserId = 10;
+            visit.UserId = user.Id;
             visit.SpecializationOfDoctor = viewModel.SpecializationOfDoctor;
             visit.FullNameOfDoctor = viewModel.FullNameOfDoctor;
             visit.DateTime = viewModel.DateTime;
@@ -45,7 +50,8 @@ namespace MedicalHelper.Controllers
         [HttpGet]
         public IActionResult GetVisit()
         {
-            int id = 4;
+            Guid id = Guid.NewGuid();
+
             var visit = _visitRepository.GetVisit(id);
 
             var viewModel = new VisitViewModel();
@@ -53,7 +59,7 @@ namespace MedicalHelper.Controllers
             viewModel.SpecializationOfDoctor = visit.SpecializationOfDoctor;
             viewModel.FullNameOfDoctor = visit.FullNameOfDoctor;
             viewModel.DateTime = visit.DateTime;
-            viewModel.User = visit.User;
+            //viewModel.User = visit.User;
 
             return View(viewModel);
         }
@@ -63,17 +69,17 @@ namespace MedicalHelper.Controllers
         public IActionResult GetAllVisits()
         {
             var allVisits = _visitRepository.GetAllVisits();
-                       
+
             List<VisitViewModel> viewModels = new List<VisitViewModel>();
 
             foreach (var visit in allVisits)
             {
                 var viewModel = new VisitViewModel();
 
-                viewModel.SpecializationOfDoctor = visit.SpecializationOfDoctor;                
+                viewModel.SpecializationOfDoctor = visit.SpecializationOfDoctor;
                 viewModel.FullNameOfDoctor = visit.FullNameOfDoctor;
                 viewModel.DateTime = visit.DateTime;
-                viewModel.User = visit.User;
+                //viewModel.User = visit.User;
                 //viewModel.DataOfBirth = visit.DataOfBirth.ToString("D");                
 
                 viewModels.Add(viewModel);

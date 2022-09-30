@@ -1,6 +1,8 @@
-﻿using MedicalHelper.EfStaff.Model;
-using MedicalHelper.EfStaff.Repositories;
-using MedicalHelper.Models;
+﻿using AutoMapper;
+using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Core.DataTransferObjects;
+using MedicalHelper.DataBase.Entities;
+using MedicalHelper.Models.User;
 using MedicalHelper.Models.UserProfile;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,87 +10,56 @@ namespace MedicalHelper.Controllers
 {
     public class UserProfileController : Controller
     {
-        public UserProfileRepository _userProfileRepository;
+        private readonly UserService _userService;
+        private readonly UserProfileService _userProfileService;
+        private readonly IMapper _mapper;
 
-        public UserProfileController(UserProfileRepository userProfileRepository)
+        public UserProfileController(UserService userService, 
+            UserProfileService userProfileService, IMapper mapper)
         {
-            _userProfileRepository = userProfileRepository;
+            _userService = userService;
+            _userProfileService = userProfileService;
+            _mapper = mapper;
         }
 
-
-        //add some UserProfile
-
         [HttpGet]
-        public IActionResult UserProfileAdd()
+        public IActionResult UserProfileAddAsync()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult UserProfileAdd(UserProfileAddViewModel viewModel)
-        {  
-            var userProfile = new UserProfile();
-
-            userProfile.UserId = 10;
-            userProfile.FirstName = viewModel.FirstName;
-            userProfile.LastName = viewModel.LastName;
-            userProfile.DataOfBirth = viewModel.DataOfBirth;
-            userProfile.AvatarUrl = viewModel.AvatarUrl;
-            userProfile.Address = viewModel.Address;
-            userProfile.FullName = viewModel.FirstName + " " + viewModel.LastName;
-
-            _userProfileRepository.Add(userProfile);
-
-            return RedirectToAction("GetAllUserProfile");            
-        }
-
-
-
-        [HttpGet]
-        public IActionResult GetUserProfile()
+        public async Task<IActionResult> UserProfileAddAsync(UserProfileAddViewModel viewModel)
         {
-            int id = 4;
-            var userProfile = _userProfileRepository.GetUserProfileById(id);
+            var userDto = await _userService.GetCurrentUserAsync();
 
-            var viewModel = new UserProfileViewModel();
+            var userProfileDto = _mapper.Map<UserProfileDto>(viewModel);
+            userProfileDto.UserId = userDto.Id;            
 
-            viewModel.FullName = userProfile.FullName;
-            viewModel.FirstName = userProfile.FirstName;
-            viewModel.LastName = userProfile.LastName;
-            viewModel.DataOfBirth = userProfile.DataOfBirth.ToString("D");
-            viewModel.AvatarUrl = userProfile.AvatarUrl;
-            viewModel.Address = userProfile.Address;                        
+            await _userProfileService.AddAsync(userProfileDto);
 
-            return View(viewModel);
+            return RedirectToAction("MyProfile");
         }
-
-
+                
         [HttpGet]
-        public IActionResult GetAllUserProfile()
+        public async Task<IActionResult> MyProfile()
         {
-            var allUserProfiles = _userProfileRepository.GetAllUserProfiles();
+            var userDto = await _userService.GetCurrentUserAsync();
+            var userProfileDto = await _userProfileService.GetUserProfileByUserIdAsync(userDto.Id);
+
+            var userProfileViewModel = _mapper.Map<UserProfileViewModel>(userProfileDto);         
                        
-            List<UserProfileViewModel> viewModels = new List<UserProfileViewModel>();
+            return View(userProfileViewModel);
+        }
+                
+        [HttpGet]
+        public async Task<IActionResult> GetAllUserProfileAsync()
+        {
+            var allUserProfilesDto = await _userProfileService.GetAllUserProfilesAsync();
 
-            foreach (var userProfile in allUserProfiles)
-            {
-                var viewModel = new UserProfileViewModel();
+            var viewModels = _mapper.Map<List<UserProfileViewModel>>(allUserProfilesDto); 
 
-                viewModel.Id = userProfile.Id;                
-                viewModel.FullName = userProfile.FullName;
-                viewModel.FirstName = userProfile.FirstName;
-                viewModel.LastName = userProfile.LastName;
-                viewModel.DataOfBirth = userProfile.DataOfBirth.ToString("D");
-                viewModel.AvatarUrl = userProfile.AvatarUrl;
-                viewModel.Address = userProfile.Address;
-
-                viewModels.Add(viewModel);
-            }
             return View(viewModels);
         }
-
-
-
-
     }
 }

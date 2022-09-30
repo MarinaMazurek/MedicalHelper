@@ -1,5 +1,7 @@
-﻿using MedicalHelper.EfStaff.Model;
-using MedicalHelper.EfStaff.Repositories;
+﻿
+using AutoMapper;
+using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,24 +9,21 @@ namespace MedicalHelper.Controllers
 {
     public class MedicineController : Controller
     {
-        public MedicineRepository _medicineRepository;
-
-        public MedicineController(MedicineRepository medicineRepository)
+        private readonly MedicineService _medicineService;
+        private readonly IMapper _mapper;
+        public MedicineController(MedicineService medicineService,IMapper mapper)
         {
-            _medicineRepository = medicineRepository;
+            _medicineService = medicineService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetMedicine()
         {
-            int id = 2;
-            var medicine = _medicineRepository.GetMedicine(id);
+            Guid id = Guid.NewGuid();
+            var medicineDto = _medicineService.GetMedicine(id);
 
-            var viewModel = new MedicineViewModel();
-
-            viewModel.Name = medicine.Name;
-            viewModel.Cost = medicine.Cost;
-            viewModel.FullCost = medicine.FullCost;
+            var viewModel = _mapper.Map<MedicineViewModel>(medicineDto);                       
 
             return View(viewModel);
         }
@@ -32,22 +31,9 @@ namespace MedicalHelper.Controllers
         [HttpGet]
         public IActionResult GetAllMedicine()
         {
-            var allMedicines = _medicineRepository.GetAllMedicine();
+            var allMedicines = _medicineService.GetAllMedicine();         
 
-            //var viewModels = _mapper.Map<List<UserViewModel>>(allUsers);
-
-            List<MedicineViewModel> viewModels = new List<MedicineViewModel>();
-
-            foreach (var medicine in allMedicines)
-            {
-                var viewModel = new MedicineViewModel();
-
-                viewModel.Name = medicine.Name;
-                viewModel.Cost = medicine.Cost;
-                viewModel.FullCost = medicine.FullCost;
-
-                viewModels.Add(viewModel);
-            }
+            List<MedicineViewModel> viewModels = _mapper.Map<List<MedicineViewModel>>(allMedicines);
 
             return View(viewModels);
         }

@@ -1,52 +1,102 @@
-﻿using MedicalHelper.EfStaff.Repositories;
-using MedicalHelper.Models;
+﻿using AutoMapper;
+using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Core.DataTransferObjects;
+using MedicalHelper.Models.User;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHelper.Controllers
 {
     public class UserController : Controller
     {
-        public UserRepository _userRepository;
+        private readonly UserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(UserRepository userRepository)
+        public UserController(UserService userService, IMapper mapper)
         {
-            _userRepository = userRepository;
+            _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public IActionResult GetUser()
+        public IActionResult Register()
         {
-            int id = 2;
-            var user = _userRepository.Get(id);
+            return View();
+        }
 
-            var viewModel = new UserViewModel();
-                        
-            viewModel.Id = user.Id;
-            viewModel.Login = user.Login;
-            viewModel.PasswordHash = user.PasswordHash;
+        [HttpPost]
+        public async Task<IActionResult> Register(RegistrationViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var userDtoReturn = await _userService
+                .GetUserByLoginAndPasswordAsync(viewModel.Login, viewModel.Password);
+
+            if (userDtoReturn == null)
+            {
+                var userDto = _mapper.Map<UserDto>(viewModel);
+
+                await _userService.AddAsync(userDto);
+
+                await HttpContext.SignInAsync(_userService.GetPrincipal(userDto));
+
+                return RedirectToAction("UserProfileAdd", "UserProfile");
+            }
+            else
+            {
+                ModelState.AddModelError(nameof(RegistrationViewModel.Login),
+                    "Пользователь с указанным логином уже существует");
+                return View(viewModel);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            var viewModel = new RegistrationViewModel();
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(RegistrationViewModel viewModel)
+        {
+
+            var userDtoReturn = await _userService
+                .GetUserByLoginAndPasswordAsync(viewModel.Login, viewModel.Password);
+
+            if (userDtoReturn == null)
+            {
+                ModelState.AddModelError(nameof(RegistrationViewModel.Login),
+                    "Wrong login or password");
+                return View(viewModel);
+            }
+
+            await HttpContext.SignInAsync(_userService.GetPrincipal(userDtoReturn));
+
+            // TO DO
+            return RedirectToAction("MyProfile", "UserProfile");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserById(Guid id)
+        {
+            var userDto = await _userService.GetUserByIdAsync(id);
+
+            var viewModel = _mapper.Map<UserViewModel>(userDto);
 
             return View(viewModel);
         }
 
         [HttpGet]
-        public IActionResult GetAllUser()
+        public async Task<IActionResult> GetAllUsersAsync()
         {
-            var allUsers = _userRepository.GetAll();
+            var allUsersDto = await _userService.GetAllUsersAsync();
 
-            //var viewModels = _mapper.Map<List<UserViewModel>>(allUsers);
-                       
-            List <UserViewModel> viewModels = new List<UserViewModel>();
-           
-            foreach (var user in allUsers)
-            {
-                var viewModel = new UserViewModel();
-
-                viewModel.Id = user.Id;
-                viewModel.Login = user.Login;
-                viewModel.PasswordHash = user.PasswordHash;
-
-                viewModels.Add(viewModel);
-            }
+            var viewModels = _mapper.Map<List<UserViewModel>>(allUsersDto);
 
             return View(viewModels);
         }

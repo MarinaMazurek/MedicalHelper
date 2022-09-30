@@ -13,6 +13,11 @@ namespace MedicalHelper.Controllers
             _logger = logger;
         }
 
+        public IActionResult Category()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();

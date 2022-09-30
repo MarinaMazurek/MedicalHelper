@@ -1,25 +1,43 @@
-using MedicalHelper.EfStaff;
-using MedicalHelper.EfStaff.Repositories;
-using Microsoft.EntityFrameworkCore;
+using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.DataBase;
+using MedicalHelper.Repositories;
 
 namespace MedicalHelper
 {
     public class Program
     {
+        public const string AuthName = "MedicalHelperCoockie";
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddAuthentication(AuthName)
+                .AddCookie(AuthName, config =>
+                {
+                    config.LoginPath = "/User/Login";
+                    config.AccessDeniedPath = "/User/Denied";
+                    config.Cookie.Name = "Smile";
+                });
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddDbContext<MedicalHelperDbContext>();
             builder.Services.AddScoped<UserRepository, UserRepository>();
             builder.Services.AddScoped<UserProfileRepository, UserProfileRepository>();
             builder.Services.AddScoped<VisitRepository, VisitRepository>();
-            builder.Services.AddScoped<MedicineRepository, MedicineRepository>();
-            builder.Services.AddScoped<VaccinationRepository, VaccinationRepository>();
 
+            builder.Services.AddScoped<MedicineService, MedicineService>();
+            builder.Services.AddScoped<MedicineRepository, MedicineRepository>();
+
+            builder.Services.AddScoped<VaccinationRepository, VaccinationRepository>();
+            builder.Services.AddScoped<UserService, UserService>();
+
+            builder.Services.AddHttpContextAccessor();
 
 
 
@@ -37,7 +55,7 @@ namespace MedicalHelper
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

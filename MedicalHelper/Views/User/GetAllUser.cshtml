@@ -1,4 +1,5 @@
-﻿@model List<MedicalHelper.Models.UserViewModel>
+﻿@using MedicalHelper.Models.User
+@model List<UserViewModel>
 
 
 <div>  
@@ -8,8 +9,9 @@
             <p>                
                 <th>@user.Id</th>
                 <th>@user.Login</th>
-                <th>@user.PasswordHash</th>                  
+                <th>@user.Password</th>                  
             </p>
         }
     </tr>
+
 </div>

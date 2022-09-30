@@ -1,83 +1,48 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MedicalHelper</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MedicalHelper.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MedicalHelper</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">                        
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="GetUser">User</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="GetAllUser">All Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="UserProfile" asp-action="GetUserProfile">UserProfile</a>
-                        </li>
-                        <li  class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="UserProfile" asp-action="GetAllUserProfile">All UserProfiles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Visit" asp-action="GetVisit">Visit</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Visit" asp-action="GetAllVisits">All Visits</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Medicine" asp-action="GetMedicine">Medicine</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Medicine" asp-action="GetAllMedicine">All Medicines</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Vaccination" asp-action="GetVaccination">Vaccination</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Vaccination" asp-action="GetAllVaccination">All Vaccinations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="UserProfile" asp-action="UserProfileAdd">UserProfile Add</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Visit" asp-action="VisitAdd">Visit Add</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-            <input class="button"
-                   type="button"
-                   value="Visit Delete"
-                   onclick="location.href='/Visit/VisitDelete?id=1'" />
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - MedicalHelper - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+﻿
+<html>
+    <head>
+        <link rel="stylesheet" href="~/css/site.css">
+    </head>
+    <body> 
+        <div class="header">
+            <img src="~/image/meditsina.jpg" />
+            Medical Helper
+            <img src="~/image/meditsina.jpg" />
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+
+        <div class="central-block">
+            <div class="menu">
+                Menu
+            <div><a href="/UserProfile/GetUserProfile"> GetUserProfile </a></div>
+            <div><a href="/UserProfile/GetAllUserProfile"> GetAllUserProfile </a></div>
+            <div><a href="/UserProfile/UserProfileAdd"> UserProfileAdd </a></div>
+            <div><a href="/UserProfile/MyProfile"> MyProfile </a></div>
+
+
+            <div><a href="/User/GetUser"> GetUser </a></div>
+            <div><a href="/User/GetAllUser"> GetAllUser </a></div>
+            <div><a href="/User/Register"> Register </a></div>
+            <div><a href="/User/Login"> Login </a></div>
+
+
+
+            <div><a href="/Visit/GetVisit"> GetVisit </a></div>
+            <div><a href="/Visit/GetAllVisits"> GetAllVisits </a></div>
+            <div><a href="/Visit/VisitAdd"> VisitAdd </a></div>
+
+            <div><a href="/Medicine/GetMedicine"> GetMedicine </a></div>
+            <div><a href="/Medicine/GetAllMedicine"> GetAllMedicine </a></div>
+
+            
+            </div>
+            <div class="content">
+                @RenderBody()
+            </div>
+        </div>
+
+        <div class="footer">
+            Подвал
+        </div>
+    
+    </body>
 </html>

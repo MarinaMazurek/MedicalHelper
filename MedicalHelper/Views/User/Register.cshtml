@@ -1,0 +1,29 @@
+﻿@model MedicalHelper.Models.User.RegistrationViewModel
+
+
+<form action="/User/Register" method="post">
+
+    <label class="login-input">
+        Login
+        <div>
+            @Html.TextBoxFor(x => x.Login, new { @class = "icon-ok-cancel" })            
+            @Html.ValidationMessageFor(x => x.Login)
+        </div>
+    </label>
+    <label class="login-input">
+        Password
+        <div>
+            @Html.TextBoxFor(x => x.Password)
+            @Html.ValidationMessageFor(x => x.Password)
+        </div>
+    </label>
+    <label class="login-input">
+        Confirm password
+        <div>
+            @Html.TextBoxFor(x => x.ConfirmPassword)
+            @Html.ValidationMessageFor(x => x.ConfirmPassword)
+        </div>
+    </label>
+    <input type="submit" value="Register" />
+
+</form>

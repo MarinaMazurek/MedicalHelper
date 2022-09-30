@@ -1,6 +1,5 @@
-﻿using MedicalHelper.EfStaff.Model;
-using MedicalHelper.EfStaff.Repositories;
-using MedicalHelper.Models;
+﻿using MedicalHelper.Models;
+using MedicalHelper.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHelper.Controllers
@@ -17,13 +16,14 @@ namespace MedicalHelper.Controllers
         [HttpGet]
         public IActionResult GetVaccination()
         {
-            int id = 1;
+            Guid id = Guid.NewGuid();
+
             var vaccination = _vaccinationRepository.GetVaccination(id);
 
             var viewModel = new VaccinationViewModel();
 
             viewModel.Name = vaccination.Name;
-            viewModel.Date = vaccination.Date;            
+            viewModel.Date = vaccination.Date;
 
             return View(viewModel);
         }
