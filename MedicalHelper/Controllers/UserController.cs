@@ -38,10 +38,13 @@ namespace MedicalHelper.Controllers
             if (userDtoReturn == null)
             {
                 var userDto = _mapper.Map<UserDto>(viewModel);
-
                 await _userService.AddAsync(userDto);
 
-                await HttpContext.SignInAsync(_userService.GetPrincipal(userDto));
+                // делаем запрос, чтобы получить id - нужно для claim
+                var userDtoForId = await _userService
+                    .GetUserByLoginAndPasswordAsync(viewModel.Login, viewModel.Password);
+
+                await HttpContext.SignInAsync(_userService.GetPrincipal(userDtoForId));
 
                 return RedirectToAction("UserProfileAdd", "UserProfile");
             }
@@ -92,7 +95,7 @@ namespace MedicalHelper.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsersAsync()
+        public async Task<IActionResult> GetAllUsers()
         {
             var allUsersDto = await _userService.GetAllUsersAsync();
 

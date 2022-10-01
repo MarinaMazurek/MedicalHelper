@@ -27,15 +27,22 @@ namespace MedicalHelper
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddDbContext<MedicalHelperDbContext>();
-            builder.Services.AddScoped<UserRepository, UserRepository>();
-            builder.Services.AddScoped<UserProfileRepository, UserProfileRepository>();
-            builder.Services.AddScoped<VisitRepository, VisitRepository>();
 
-            builder.Services.AddScoped<MedicineService, MedicineService>();
+
+            builder.Services.AddScoped<UserRepository, UserRepository>();
+            builder.Services.AddScoped<UserService, UserService>();
+
+            builder.Services.AddScoped<UserProfileRepository, UserProfileRepository>();
+            builder.Services.AddScoped<UserProfileService, UserProfileService>();
+
+            builder.Services.AddScoped<VisitRepository, VisitRepository>();
+            builder.Services.AddScoped<VisitService, VisitService>();
+
             builder.Services.AddScoped<MedicineRepository, MedicineRepository>();
+            builder.Services.AddScoped<MedicineService, MedicineService>();
 
             builder.Services.AddScoped<VaccinationRepository, VaccinationRepository>();
-            builder.Services.AddScoped<UserService, UserService>();
+
 
             builder.Services.AddHttpContextAccessor();
 

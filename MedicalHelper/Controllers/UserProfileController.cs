@@ -23,13 +23,13 @@ namespace MedicalHelper.Controllers
         }
 
         [HttpGet]
-        public IActionResult UserProfileAddAsync()
+        public IActionResult UserProfileAdd()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> UserProfileAddAsync(UserProfileAddViewModel viewModel)
+        public async Task<IActionResult> UserProfileAdd(UserProfileAddViewModel viewModel)
         {
             var userDto = await _userService.GetCurrentUserAsync();
 
@@ -53,7 +53,7 @@ namespace MedicalHelper.Controllers
         }
                 
         [HttpGet]
-        public async Task<IActionResult> GetAllUserProfileAsync()
+        public async Task<IActionResult> GetAllUserProfiles()
         {
             var allUserProfilesDto = await _userProfileService.GetAllUserProfilesAsync();
 

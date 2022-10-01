@@ -3,6 +3,7 @@ using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
@@ -25,7 +26,7 @@ namespace MedicalHelper.Business.ServicesImplementations
         public async Task AddAsync(UserDto userDto)
         {
             var entity = _mapper.Map<User>(userDto);
-            await _userRepository.SaveAsync(entity);
+            await _userRepository.AddAsync(entity);
         }
 
         public async Task<UserDto> GetUserByLoginAndPasswordAsync(string login, string password)
@@ -45,7 +46,7 @@ namespace MedicalHelper.Business.ServicesImplementations
 
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
-            var users = await _userRepository.GetAllUsersAsync();
+            var users = await _userRepository.GetAllAsync();
             var usersReturnDto = _mapper.Map<List<UserDto>>(users);
             return usersReturnDto;
         }
@@ -72,10 +73,10 @@ namespace MedicalHelper.Business.ServicesImplementations
         {
             var claims = new List<Claim>
             {
-                new Claim("Id", userDto.Id.ToString()),
+                new Claim("Id", userDto.Id.ToString())
             };
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = new ClaimsIdentity(claims, "MedicalHelperCoockie");
 
             return new ClaimsPrincipal(claimsIdentity);
         }

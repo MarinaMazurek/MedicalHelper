@@ -1,4 +1,4 @@
-﻿namespace MedicalHelper.Models
+﻿namespace MedicalHelper.Models.Visit
 {
     public class VisitViewModel
     {

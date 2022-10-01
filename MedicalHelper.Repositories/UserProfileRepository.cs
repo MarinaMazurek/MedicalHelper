@@ -4,14 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedicalHelper.Repositories
 {
-    public class UserProfileRepository
+    public class UserProfileRepository : Repository<UserProfile>
     {
-        public MedicalHelperDbContext _dbContext;
-        public DbSet<UserProfile> _dbSet;
+        public readonly MedicalHelperDbContext _dbContext;
+        public readonly DbSet<UserProfile> _dbSet;
 
-        public UserProfileRepository(MedicalHelperDbContext dbContext)
-        {
-            _dbContext = dbContext;
+        public UserProfileRepository(MedicalHelperDbContext dbContext): base(dbContext)
+        {            
             _dbSet = dbContext.Set<UserProfile>();
         }
 
@@ -20,17 +19,6 @@ namespace MedicalHelper.Repositories
             return await _dbSet
                 .Where(x => x.UserId == userId)
                 .FirstOrDefaultAsync();
-        }
-
-        public async Task<List<UserProfile>> GetAllUserProfilesAsync()
-        {
-            return await _dbSet.ToListAsync();
-        }
-
-        public async Task SaveAsync(UserProfile userProfile)
-        {
-            await _dbSet.AddAsync(userProfile);
-            _dbContext.SaveChanges();
-        }
+        }       
     }
 }

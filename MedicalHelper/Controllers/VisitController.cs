@@ -1,25 +1,24 @@
-﻿using MedicalHelper.Business.ServicesImplementations;
-using MedicalHelper.DataBase.Entities;
-using MedicalHelper.Models;
+﻿using AutoMapper;
+using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Core.DataTransferObjects;
+using MedicalHelper.Models.UserProfile;
 using MedicalHelper.Models.Visit;
-using MedicalHelper.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHelper.Controllers
 {
     public class VisitController : Controller
     {
-        private readonly VisitRepository _visitRepository;
         private readonly UserService _userService;
+        private readonly VisitService _visitService;
+        private readonly IMapper _mapper;
 
-        public VisitController(VisitRepository visitRepository, UserService userService)
+        public VisitController(UserService userService, VisitService visitService, IMapper mapper)
         {
-            _visitRepository = visitRepository;
             _userService = userService;
+            _visitService = visitService;
+            _mapper = mapper;
         }
-
-
-        //add some Visit
 
         [HttpGet]
         public IActionResult VisitAdd()
@@ -28,68 +27,29 @@ namespace MedicalHelper.Controllers
         }
 
         [HttpPost]
-        public IActionResult VisitAdd(VisitAddViewModel viewModel)
+        public async Task<IActionResult> VisitAdd(VisitViewModel viewModel)
         {
-            var user = _userService.GetCurrentUserAsync();
+            var userDto = await _userService.GetCurrentUserAsync();
 
-            var visit = new Visit();
+            var visitDto = _mapper.Map<VisitDto>(viewModel);
+            visitDto.UserId = userDto.Id;
 
-            visit.UserId = user.Id;
-            visit.SpecializationOfDoctor = viewModel.SpecializationOfDoctor;
-            visit.FullNameOfDoctor = viewModel.FullNameOfDoctor;
-            visit.DateTime = viewModel.DateTime;
+            await _visitService.AddAsync(visitDto);
 
-            _visitRepository.Add(visit);
-
-            return RedirectToAction("GetAllVisits");
+            return RedirectToAction("GetAllVisitsAsync");
         }
 
-
-
-
         [HttpGet]
-        public IActionResult GetVisit()
+        public async Task<IActionResult> GetAllVisits()
         {
-            Guid id = Guid.NewGuid();
+            var userDto = await _userService.GetCurrentUserAsync();
 
-            var visit = _visitRepository.GetVisit(id);
+            var allVisitsDto = await _visitService.GetAllVisitsAsync(userDto.Id);
 
-            var viewModel = new VisitViewModel();
-
-            viewModel.SpecializationOfDoctor = visit.SpecializationOfDoctor;
-            viewModel.FullNameOfDoctor = visit.FullNameOfDoctor;
-            viewModel.DateTime = visit.DateTime;
-            //viewModel.User = visit.User;
-
-            return View(viewModel);
-        }
-
-
-        [HttpGet]
-        public IActionResult GetAllVisits()
-        {
-            var allVisits = _visitRepository.GetAllVisits();
-
-            List<VisitViewModel> viewModels = new List<VisitViewModel>();
-
-            foreach (var visit in allVisits)
-            {
-                var viewModel = new VisitViewModel();
-
-                viewModel.SpecializationOfDoctor = visit.SpecializationOfDoctor;
-                viewModel.FullNameOfDoctor = visit.FullNameOfDoctor;
-                viewModel.DateTime = visit.DateTime;
-                //viewModel.User = visit.User;
-                //viewModel.DataOfBirth = visit.DataOfBirth.ToString("D");                
-
-                viewModels.Add(viewModel);
-            }
+            var viewModels = _mapper.Map<List<VisitViewModel>>(allVisitsDto);
 
             return View(viewModels);
         }
-
-
-
 
     }
 }

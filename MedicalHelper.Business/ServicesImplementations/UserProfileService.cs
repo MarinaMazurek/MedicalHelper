@@ -19,7 +19,7 @@ namespace MedicalHelper.Business.ServicesImplementations
         public async Task AddAsync(UserProfileDto userProfileDto)
         {
             var entity = _mapper.Map<UserProfile>(userProfileDto);
-            await _userProfileRepository.SaveAsync(entity);
+            await _userProfileRepository.AddAsync(entity);
         }
 
         public async Task<UserProfileDto> GetUserProfileByUserIdAsync(Guid userId)
@@ -31,7 +31,7 @@ namespace MedicalHelper.Business.ServicesImplementations
 
         public async Task<List<UserProfileDto>> GetAllUserProfilesAsync()
         {
-            var entities = await _userProfileRepository.GetAllUserProfilesAsync();
+            var entities = await _userProfileRepository.GetAllAsync();
             var userProfilesDto = _mapper.Map<List<UserProfileDto>>(entities);
             return userProfilesDto;
         }

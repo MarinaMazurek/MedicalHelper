@@ -1,11 +1,6 @@
 ﻿using MedicalHelper.DataBase;
 using MedicalHelper.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalHelper.Repositories
 {
@@ -20,22 +15,17 @@ namespace MedicalHelper.Repositories
             _dbSet = dbContext.Set<Visit>();
         }
 
-        public Visit GetVisit(Guid visitId)
+        public async Task AddAsync(Visit visit)
         {
-            return _dbSet
-                .Where(x => x.Id == visitId)
-                .FirstOrDefault();
-        }
-
-        public void Add(Visit visit)
-        {
-            _dbSet.Add(visit);
+            await _dbSet.AddAsync(visit);
             _dbContext.SaveChanges();
         }
 
-        public List<Visit> GetAllVisits()
+        public async Task<List<Visit>> GetAllVisitsByUserIdAsync(Guid id)
         {
-            return _dbSet.ToList();
+            return await _dbSet
+                .Where(x => x.UserId == id)
+                .ToListAsync();
         }
     }
 }

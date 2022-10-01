@@ -3,6 +3,7 @@ using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Models.User;
 using MedicalHelper.Models.UserProfile;
+using MedicalHelper.Models.Visit;
 
 namespace MedicalHelper.MappingProfiles
 {
@@ -19,6 +20,17 @@ namespace MedicalHelper.MappingProfiles
                  .ForMember(u => u.FullName,
                 opt =>
                     opt.MapFrom(viewModel => viewModel.FirstName + " " + viewModel.LastName));
+
+            CreateMap<Visit, VisitDto>();
+            CreateMap<VisitDto, Visit>();
+            CreateMap<VisitViewModel, VisitDto>();
+            CreateMap<VisitDto, VisitViewModel>();
+
+            CreateMap<UserProfileDto, UserProfile>();
+            CreateMap<UserProfile, UserProfileDto>();
+
+            CreateMap<UserProfileDto, UserProfileViewModel>();
+            CreateMap<UserProfileViewModel, UserProfileDto>();
         }
     }
 }
