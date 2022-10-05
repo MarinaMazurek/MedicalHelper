@@ -1,51 +1,33 @@
-﻿using MedicalHelper.Models;
-using MedicalHelper.Repositories;
+﻿using AutoMapper;
+using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHelper.Controllers
 {
     public class VaccinationController : Controller
     {
-        public VaccinationRepository _vaccinationRepository;
+        private readonly VaccinationService _vaccinationService;
+        private readonly UserService _userService;
+        private readonly IMapper _mapper;
 
-        public VaccinationController(VaccinationRepository vaccinationRepository)
+        public VaccinationController(VaccinationService vaccinationService,
+            UserService userService, IMapper mapper)
         {
-            _vaccinationRepository = vaccinationRepository;
+            _vaccinationService = vaccinationService;
+            _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public IActionResult GetVaccination()
+        public async Task<IActionResult> GetAllUserVaccinations()
         {
-            Guid id = Guid.NewGuid();
+            var userDto = await _userService.GetCurrentUserAsync();
 
-            var vaccination = _vaccinationRepository.GetVaccination(id);
+            var allVaccinationsDto = await _vaccinationService
+                .GetAllVaccinationsAsync(userDto.Id);
 
-            var viewModel = new VaccinationViewModel();
-
-            viewModel.Name = vaccination.Name;
-            viewModel.Date = vaccination.Date;
-
-            return View(viewModel);
-        }
-
-        [HttpGet]
-        public IActionResult GetAllVaccination()
-        {
-            var allVaccinations = _vaccinationRepository.GetAllVaccination();
-
-            //var viewModels = _mapper.Map<List<UserViewModel>>(allUsers);
-
-            List<VaccinationViewModel> viewModels = new List<VaccinationViewModel>();
-
-            foreach (var vaccination in allVaccinations)
-            {
-                var viewModel = new VaccinationViewModel();
-
-                viewModel.Name = vaccination.Name;
-                viewModel.Date = vaccination.Date;
-
-                viewModels.Add(viewModel);
-            }
+            var viewModels = _mapper.Map<List<VaccinationViewModel>>(allVaccinationsDto);
 
             return View(viewModels);
         }

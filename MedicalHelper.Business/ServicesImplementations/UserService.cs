@@ -5,6 +5,7 @@ using MedicalHelper.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace MedicalHelper.Business.ServicesImplementations
@@ -29,9 +30,15 @@ namespace MedicalHelper.Business.ServicesImplementations
             await _userRepository.AddAsync(entity);
         }
 
-        public async Task<UserDto> GetUserByLoginAndPasswordAsync(string login, string password)
+        public async Task<bool> IsEmailExistAsync(string email)
         {
-            var user = await _userRepository.GetUserByLoginAndPasswordAsync(login, password);
+            return await _userRepository.Get()
+                .AsNoTracking().AnyAsync(entity => entity.Email.Equals(email));             
+        }
+
+        public async Task<UserDto> GetUserByEmailAndPasswordAsync(string email, string password)
+        {
+            var user = await _userRepository.GetUserByEmailAndPasswordAsync(email, password);
             var userReturnDto = _mapper.Map<UserDto>(user);
             return userReturnDto;
         }
@@ -39,7 +46,7 @@ namespace MedicalHelper.Business.ServicesImplementations
         //для администратора
         public async Task<UserDto> GetUserByIdAsync(Guid id)
         {
-            var user = await _userRepository.GetUserByIdAsync(id);
+            var user = await _userRepository.GetEntityByIdAsync(id);
             var userReturnDto = _mapper.Map<UserDto>(user);
             return userReturnDto;
         }
@@ -66,7 +73,7 @@ namespace MedicalHelper.Business.ServicesImplementations
             }
 
             var id = Guid.Parse(idStr);
-            return await _userRepository.GetUserByIdAsync(id);
+            return await _userRepository.GetEntityByIdAsync(id);
         }
 
         public ClaimsPrincipal GetPrincipal(UserDto userDto)

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalHelper.DataBase.Migrations
 {
     [DbContext(typeof(MedicalHelperDbContext))]
-    [Migration("20220925195011_structure")]
-    partial class structure
+    [Migration("20221002124255_email")]
+    partial class email
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,7 +56,7 @@ namespace MedicalHelper.DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Login")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

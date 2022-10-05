@@ -50,6 +50,5 @@ namespace MedicalHelper.Controllers
 
             return View(viewModels);
         }
-
     }
 }

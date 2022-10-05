@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.DataBase.Entities;
+using MedicalHelper.Models;
 using MedicalHelper.Models.User;
 using MedicalHelper.Models.UserProfile;
 using MedicalHelper.Models.Visit;
@@ -26,11 +27,24 @@ namespace MedicalHelper.MappingProfiles
             CreateMap<VisitViewModel, VisitDto>();
             CreateMap<VisitDto, VisitViewModel>();
 
+            CreateMap<Vaccination, VaccinationDto>();
+            CreateMap<VaccinationDto, Vaccination>();
+            CreateMap<VaccinationViewModel, VaccinationDto>();
+            CreateMap<VaccinationDto, VaccinationViewModel>();
+
+
+            CreateMap<Medicine, MedicineDto>();
+            CreateMap<MedicineDto, Medicine>();
+            CreateMap<MedicineViewModel, MedicineDto>();
+            CreateMap<MedicineDto, MedicineViewModel>();
+
+
             CreateMap<UserProfileDto, UserProfile>();
             CreateMap<UserProfile, UserProfileDto>();
 
             CreateMap<UserProfileDto, UserProfileViewModel>();
             CreateMap<UserProfileViewModel, UserProfileDto>();
+
         }
     }
 }

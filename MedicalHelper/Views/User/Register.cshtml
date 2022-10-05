@@ -1,13 +1,51 @@
 ﻿@model MedicalHelper.Models.User.RegistrationViewModel
 
+@{
+    ViewData["Title"] = "Register";
+}
 
-<form action="/User/Register" method="post">
+<div>
+    <h1>Register</h1>
+
+    <form asp-controller="User" asp-action="Register" method="post">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input asp-for="Email" type="email" class="form-control" id="email" required>
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" asp-for="Password" class="form-control" id="password">
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+        </div>
+        <div class="mb-3">
+            <label for="password-confirmation" class="form-label">Password Confirmation</label>
+            <input type="password" asp-for="ConfirmPassword" class="form-control" id="password-confirmation">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Submit">
+
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+
+@*<form action="/User/Register" method="post">
 
     <label class="login-input">
         Login
         <div>
-            @Html.TextBoxFor(x => x.Login, new { @class = "icon-ok-cancel" })            
-            @Html.ValidationMessageFor(x => x.Login)
+            @Html.TextBoxFor(x => x.Email, new { @class = "icon-ok-cancel" })            
+            @Html.ValidationMessageFor(x => x.Email)
         </div>
     </label>
     <label class="login-input">
@@ -25,5 +63,4 @@
         </div>
     </label>
     <input type="submit" value="Register" />
-
-</form>
+</form>*@

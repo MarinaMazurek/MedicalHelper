@@ -1,11 +1,6 @@
-﻿using MedicalHelper.DataBase.Entities;
-using MedicalHelper.DataBase;
+﻿using MedicalHelper.DataBase;
+using MedicalHelper.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalHelper.Repositories
 {
@@ -20,17 +15,19 @@ namespace MedicalHelper.Repositories
             _dbSet = dbContext.Set<T>();
         }
 
+        public virtual IQueryable<T> Get()
+        {
+            return _dbSet;
+        }
+        public virtual async Task<T?> GetEntityByIdAsync(Guid id)
+        {
+            return await _dbSet.SingleOrDefaultAsync(x => x.Id == id);
+        }
+
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
-        }
-
-        public virtual async Task AddAsync(T entity)
-        {
-            await _dbSet.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
-
-        }
+        }              
 
         public virtual void Update(T entity)
         {
@@ -42,6 +39,10 @@ namespace MedicalHelper.Repositories
             _dbSet.Remove(entity);
         }
 
-
+        public virtual async Task AddAsync(T entity)
+        {
+            await _dbSet.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace MedicalHelper.Controllers
             }
 
             var userDtoReturn = await _userService
-                .GetUserByLoginAndPasswordAsync(viewModel.Login, viewModel.Password);
+                .GetUserByEmailAndPasswordAsync(viewModel.Email, viewModel.Password);
 
             if (userDtoReturn == null)
             {
@@ -42,7 +42,7 @@ namespace MedicalHelper.Controllers
 
                 // делаем запрос, чтобы получить id - нужно для claim
                 var userDtoForId = await _userService
-                    .GetUserByLoginAndPasswordAsync(viewModel.Login, viewModel.Password);
+                    .GetUserByEmailAndPasswordAsync(viewModel.Email, viewModel.Password);
 
                 await HttpContext.SignInAsync(_userService.GetPrincipal(userDtoForId));
 
@@ -50,11 +50,35 @@ namespace MedicalHelper.Controllers
             }
             else
             {
-                ModelState.AddModelError(nameof(RegistrationViewModel.Login),
+                ModelState.AddModelError(nameof(RegistrationViewModel.Email),
                     "Пользователь с указанным логином уже существует");
                 return View(viewModel);
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CheckEmail(string email)
+        {
+            try
+            {
+                var isExist = await _userService.IsEmailExistAsync(email);
+                
+                if (isExist)
+                {
+                    return Ok(false);
+                }
+                return Ok(true);
+            }
+            catch(Exception e)
+            {
+                //Log.Error(e, e.Message);
+                return StatusCode(500);
+            }           
+        }
+
+
+
+
 
         [HttpGet]
         public IActionResult Login()
@@ -69,12 +93,12 @@ namespace MedicalHelper.Controllers
         {
 
             var userDtoReturn = await _userService
-                .GetUserByLoginAndPasswordAsync(viewModel.Login, viewModel.Password);
+                .GetUserByEmailAndPasswordAsync(viewModel.Email, viewModel.Password);
 
             if (userDtoReturn == null)
             {
-                ModelState.AddModelError(nameof(RegistrationViewModel.Login),
-                    "Wrong login or password");
+                ModelState.AddModelError(nameof(RegistrationViewModel.Email),
+                    "Wrong email or password");
                 return View(viewModel);
             }
 

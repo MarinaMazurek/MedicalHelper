@@ -1,34 +1,23 @@
-﻿using MedicalHelper.DataBase;
+﻿using MedicalHelper.Data.Abstractions.Repositories;
+using MedicalHelper.DataBase;
 using MedicalHelper.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalHelper.Repositories
 {
-    public class VaccinationRepository
+    public class VaccinationRepository : Repository<Vaccination>, IVaccinationRepository
     {
-        public MedicalHelperDbContext _dbContext;
+        public readonly DbSet<Vaccination> _dbSet;
 
-        public DbSet<Vaccination> _dbSet;
-
-        public VaccinationRepository(MedicalHelperDbContext dbContext)
+        public VaccinationRepository(MedicalHelperDbContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
             _dbSet = dbContext.Set<Vaccination>();
         }
-
-        public Vaccination GetVaccination(Guid id)
+        public async Task<List<Vaccination>> GetAllVaccinationsByUserIdAsync(Guid id)
         {
-            return _dbSet.SingleOrDefault(x => x.Id == id);
-        }
-
-        public List<Vaccination> GetAllVaccination()
-        {
-            return _dbSet.ToList();
+            return await _dbSet
+                .Where(x => x.UserId == id)
+                .ToListAsync();
         }
     }
 }

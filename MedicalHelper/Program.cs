@@ -15,7 +15,7 @@ namespace MedicalHelper
             builder.Services.AddAuthentication(AuthName)
                 .AddCookie(AuthName, config =>
                 {
-                    config.LoginPath = "/User/Login";
+                    config.LoginPath = "/User/Email";
                     config.AccessDeniedPath = "/User/Denied";
                     config.Cookie.Name = "Smile";
                 });

@@ -1,12 +1,12 @@
-﻿using MedicalHelper.DataBase;
+﻿using MedicalHelper.Data.Abstractions.Repositories;
+using MedicalHelper.DataBase;
 using MedicalHelper.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicalHelper.Repositories
 {
-    public class UserProfileRepository : Repository<UserProfile>
+    public class UserProfileRepository : Repository<UserProfile>, IUserProfileRepository
     {
-        public readonly MedicalHelperDbContext _dbContext;
         public readonly DbSet<UserProfile> _dbSet;
 
         public UserProfileRepository(MedicalHelperDbContext dbContext): base(dbContext)

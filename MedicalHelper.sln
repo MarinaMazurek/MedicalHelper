@@ -5,13 +5,15 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHelper", "MedicalHelper\MedicalHelper.csproj", "{AC4A223F-3903-4D15-B2F8-160E809D246F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHelper.DataBase", "MedicalHelper.DataBase\MedicalHelper.DataBase.csproj", "{FE626B08-2C81-487B-A62B-FE3598777163}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHelper.DataBase", "MedicalHelper.DataBase\MedicalHelper.DataBase.csproj", "{FE626B08-2C81-487B-A62B-FE3598777163}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHelper.Repositories", "MedicalHelper.Repositories\MedicalHelper.Repositories.csproj", "{F0F58E85-742A-4727-B715-853CDF6AD9B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHelper.Repositories", "MedicalHelper.Repositories\MedicalHelper.Repositories.csproj", "{F0F58E85-742A-4727-B715-853CDF6AD9B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHelper.Core", "MedicalHelper.Core\MedicalHelper.Core.csproj", "{88FF0C26-D0F8-4F49-9B77-9A81405958EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHelper.Core", "MedicalHelper.Core\MedicalHelper.Core.csproj", "{88FF0C26-D0F8-4F49-9B77-9A81405958EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHelper.Business", "MedicalHelper.Business\MedicalHelper.Business.csproj", "{4C006033-B13B-4754-8765-DD0BC81CF59C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHelper.Business", "MedicalHelper.Business\MedicalHelper.Business.csproj", "{4C006033-B13B-4754-8765-DD0BC81CF59C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHelper.Data.Abstractions", "MedicalHelper.Data.Abstractions\MedicalHelper.Data.Abstractions.csproj", "{7EFC2753-6D6A-4844-B288-07F9CFB3EFF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{4C006033-B13B-4754-8765-DD0BC81CF59C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C006033-B13B-4754-8765-DD0BC81CF59C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C006033-B13B-4754-8765-DD0BC81CF59C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EFC2753-6D6A-4844-B288-07F9CFB3EFF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EFC2753-6D6A-4844-B288-07F9CFB3EFF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EFC2753-6D6A-4844-B288-07F9CFB3EFF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFC2753-6D6A-4844-B288-07F9CFB3EFF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

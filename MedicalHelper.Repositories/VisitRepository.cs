@@ -4,21 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedicalHelper.Repositories
 {
-    public class VisitRepository
+    public class VisitRepository : Repository<Visit>
     {
-        public MedicalHelperDbContext _dbContext;
         public DbSet<Visit> _dbSet;
 
-        public VisitRepository(MedicalHelperDbContext dbContext)
+        public VisitRepository(MedicalHelperDbContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
             _dbSet = dbContext.Set<Visit>();
-        }
-
-        public async Task AddAsync(Visit visit)
-        {
-            await _dbSet.AddAsync(visit);
-            _dbContext.SaveChanges();
         }
 
         public async Task<List<Visit>> GetAllVisitsByUserIdAsync(Guid id)
