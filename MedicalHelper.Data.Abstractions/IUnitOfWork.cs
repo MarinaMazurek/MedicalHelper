@@ -11,13 +11,12 @@ namespace MedicalHelper.Data.Abstractions
 {
     public interface IUnitOfWork
     {
-        IRepository<User> Users { get; }
-        IRepository<UserProfile> UserProfiles { get; }
-        IRepository<Visit> Visits { get; }
-        IRepository<Medicine> Medicines { get; }
-        IRepository<Vaccination> Vaccinations { get; }
-
-        //IRepository<Role> Roles { get; }
+        IUserRepository Users { get; }
+        IUserProfileRepository UserProfiles { get; }
+        IVisitRepository Visits { get; }
+        IMedicineRepository Medicines { get; }
+        IVaccinationRepository Vaccinations { get; }
+        IRepository<Role> Roles { get; }
 
         Task<int> Commit();
     }

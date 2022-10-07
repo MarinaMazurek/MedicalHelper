@@ -14,10 +14,10 @@ namespace MedicalHelper.Repositories
             _dbSet = dbContext.Set<User>();
         }
 
-        public async Task<User?> GetUserByEmailAndPasswordAsync(string email, string password)
+        public async Task<User?> GetUserByEmailAndPasswordAsync(string email, string passwordHash)
         {
             return await _dbSet
-                .SingleOrDefaultAsync(x => x.Email == email && x.Password == password);
+                .SingleOrDefaultAsync(x => x.Email == email && x.PasswordHash == passwordHash);
         }
     }
 }

@@ -1,37 +1,39 @@
 ﻿using AutoMapper;
+using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
+using MedicalHelper.Data.Abstractions;
 using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Repositories;
 
 namespace MedicalHelper.Business.ServicesImplementations
 {
-    public class UserProfileService
+    public class UserProfileService : IUserProfileService
     {
-        private readonly UserProfileRepository _userProfileRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UserProfileService(UserProfileRepository userProfileRepository, IMapper mapper)
+        public UserProfileService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _userProfileRepository = userProfileRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task AddAsync(UserProfileDto userProfileDto)
         {
             var entity = _mapper.Map<UserProfile>(userProfileDto);
-            await _userProfileRepository.AddAsync(entity);
+            await _unitOfWork.UserProfiles.AddAsync(entity);
         }
 
         public async Task<UserProfileDto> GetUserProfileByUserIdAsync(Guid userId)
         {
-            var entity = await _userProfileRepository.GetUserProfileByUserIdAsync(userId);
+            var entity = await _unitOfWork.UserProfiles.GetUserProfileByUserIdAsync(userId);
             var userProfileDto = _mapper.Map<UserProfileDto>(entity);
             return userProfileDto;
         }
 
         public async Task<List<UserProfileDto>> GetAllUserProfilesAsync()
         {
-            var entities = await _userProfileRepository.GetAllAsync();
+            var entities = await _unitOfWork.UserProfiles.GetAllAsync();
             var userProfilesDto = _mapper.Map<List<UserProfileDto>>(entities);
             return userProfilesDto;
         }

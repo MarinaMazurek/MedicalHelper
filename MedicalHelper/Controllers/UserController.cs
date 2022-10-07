@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Models.User;
 using Microsoft.AspNetCore.Authentication;
@@ -9,12 +10,14 @@ namespace MedicalHelper.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
-        public UserController(UserService userService, IMapper mapper)
+        public UserController(IUserService userService, IRoleService roleService, IMapper mapper)
         {
             _userService = userService;
+            _roleService = roleService;
             _mapper = mapper;
         }
 

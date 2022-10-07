@@ -1,10 +1,11 @@
-﻿using MedicalHelper.DataBase;
+﻿using MedicalHelper.Data.Abstractions.Repositories;
+using MedicalHelper.DataBase;
 using MedicalHelper.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicalHelper.Repositories
 {
-    public class VisitRepository : Repository<Visit>
+    public class VisitRepository : Repository<Visit>, IVisitRepository
     {
         public DbSet<Visit> _dbSet;
 

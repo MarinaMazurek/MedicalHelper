@@ -1,10 +1,12 @@
-﻿using MedicalHelper.DataBase;
+﻿using MedicalHelper.Data.Abstractions.Repositories;
+using MedicalHelper.DataBase;
 using MedicalHelper.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace MedicalHelper.Repositories
 {
-    public class Repository<T> where T : class, IBaseEntity
+    public class Repository<T> : IRepository<T> where T : class, IBaseEntity
     {
         private readonly MedicalHelperDbContext _dbContext;
         private readonly DbSet<T> _dbSet;
@@ -21,13 +23,14 @@ namespace MedicalHelper.Repositories
         }
         public virtual async Task<T?> GetEntityByIdAsync(Guid id)
         {
-            return await _dbSet.SingleOrDefaultAsync(x => x.Id == id);
+            return await _dbSet.AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
-        }              
+        }
 
         public virtual void Update(T entity)
         {
@@ -43,6 +46,18 @@ namespace MedicalHelper.Repositories
         {
             await _dbSet.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public virtual IQueryable<T> FindBy(Expression<Func<T, bool>> searchExpression,
+        params Expression<Func<T, object>>[] includes)
+        {
+            var result = _dbSet.Where(searchExpression);
+            if (includes.Any())
+            {
+                result = includes.Aggregate(result, (current, include) =>
+                    current.Include(include));
+            }
+            return result;
         }
     }
 }

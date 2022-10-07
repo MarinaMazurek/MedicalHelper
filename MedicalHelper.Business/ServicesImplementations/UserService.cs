@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
+using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
+using MedicalHelper.Data.Abstractions;
 using MedicalHelper.DataBase.Entities;
-using MedicalHelper.Repositories;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -11,15 +10,16 @@ using System.Security.Claims;
 namespace MedicalHelper.Business.ServicesImplementations
 {
 
-    public class UserService
+    public class UserService : IUserService
     {
-        private readonly UserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(UserRepository userRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, 
+            IHttpContextAccessor httpContextAccessor)
         {
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -27,18 +27,18 @@ namespace MedicalHelper.Business.ServicesImplementations
         public async Task AddAsync(UserDto userDto)
         {
             var entity = _mapper.Map<User>(userDto);
-            await _userRepository.AddAsync(entity);
+            await _unitOfWork.Users.AddAsync(entity);
         }
 
         public async Task<bool> IsEmailExistAsync(string email)
         {
-            return await _userRepository.Get()
-                .AsNoTracking().AnyAsync(entity => entity.Email.Equals(email));             
+            return await _unitOfWork.Users.Get()
+                .AsNoTracking().AnyAsync(entity => entity.Email.Equals(email));
         }
 
         public async Task<UserDto> GetUserByEmailAndPasswordAsync(string email, string password)
         {
-            var user = await _userRepository.GetUserByEmailAndPasswordAsync(email, password);
+            var user = await _unitOfWork.Users.GetUserByEmailAndPasswordAsync(email, password);
             var userReturnDto = _mapper.Map<UserDto>(user);
             return userReturnDto;
         }
@@ -46,14 +46,14 @@ namespace MedicalHelper.Business.ServicesImplementations
         //для администратора
         public async Task<UserDto> GetUserByIdAsync(Guid id)
         {
-            var user = await _userRepository.GetEntityByIdAsync(id);
+            var user = await _unitOfWork.Users.GetEntityByIdAsync(id);
             var userReturnDto = _mapper.Map<UserDto>(user);
             return userReturnDto;
         }
 
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
-            var users = await _userRepository.GetAllAsync();
+            var users = await _unitOfWork.Users.GetAllAsync();
             var usersReturnDto = _mapper.Map<List<UserDto>>(users);
             return usersReturnDto;
         }
@@ -73,7 +73,7 @@ namespace MedicalHelper.Business.ServicesImplementations
             }
 
             var id = Guid.Parse(idStr);
-            return await _userRepository.GetEntityByIdAsync(id);
+            return await _unitOfWork.Users.GetEntityByIdAsync(id);
         }
 
         public ClaimsPrincipal GetPrincipal(UserDto userDto)

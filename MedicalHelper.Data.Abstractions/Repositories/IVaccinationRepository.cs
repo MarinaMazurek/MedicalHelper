@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MedicalHelper.Data.Abstractions.Repositories
 {
-    public interface IVaccinationRepository
+    public interface IVaccinationRepository : IRepository<Vaccination>
     {
         Task<List<Vaccination>> GetAllVaccinationsByUserIdAsync(Guid id);
 

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
+using MedicalHelper.Data.Abstractions;
 using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Repositories;
 using System;
@@ -10,26 +12,26 @@ using System.Threading.Tasks;
 
 namespace MedicalHelper.Business.ServicesImplementations
 {
-    public class VisitService
+    public class VisitService: IVisitService
     {
-        private readonly VisitRepository _visitRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public VisitService(VisitRepository visitRepository, IMapper mapper)
+        public VisitService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _visitRepository = visitRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task AddAsync(VisitDto visitDto)
         {
             var entity = _mapper.Map<Visit>(visitDto);
-            await _visitRepository.AddAsync(entity);
+            await _unitOfWork.Visits.AddAsync(entity);
         }
 
         public async Task<List<VisitDto>> GetAllVisitsAsync(Guid id)
         {
-            var entities = await _visitRepository.GetAllVisitsByUserIdAsync(id);
+            var entities = await _unitOfWork.Visits.GetAllVisitsByUserIdAsync(id);
             var visitsDto = _mapper.Map<List<VisitDto>>(entities);
             return visitsDto;
         }

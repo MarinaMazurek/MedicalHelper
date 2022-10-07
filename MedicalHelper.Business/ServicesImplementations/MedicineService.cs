@@ -1,25 +1,25 @@
 ﻿using AutoMapper;
+using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
-using MedicalHelper.Data.Abstractions.Repositories;
-using MedicalHelper.Repositories;
+using MedicalHelper.Data.Abstractions;
 
 namespace MedicalHelper.Business.ServicesImplementations
 {
 
-    public class MedicineService
+    public class MedicineService : IMedicineService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly MedicineRepository _medicineRepository;
 
-        public MedicineService(IMapper mapper, MedicineRepository medicineRepository)
+        public MedicineService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _medicineRepository = medicineRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<List<MedicineDto>> GetAllMedicinesAsync(Guid id)
         {
-            var allMedicines = await _medicineRepository.GetAllMedicinesByVisitIdAsync(id);
+            var allMedicines = await _unitOfWork.Medicines.GetAllMedicinesByVisitIdAsync(id);
 
             List<MedicineDto> list = _mapper.Map<List<MedicineDto>>(allMedicines);
 

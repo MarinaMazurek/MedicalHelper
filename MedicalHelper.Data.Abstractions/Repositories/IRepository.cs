@@ -17,9 +17,8 @@ namespace MedicalHelper.Data.Abstractions.Repositories
         Task<T?> GetEntityByIdAsync(Guid id);
         Task<IEnumerable<T>> GetAllAsync();
 
-
-        //IQueryable<T> FindBy(Expression<Func<T, bool>> searchExpression,
-        //    params Expression<Func<T, object>>[] includes);
+        IQueryable<T> FindBy(Expression<Func<T, bool>> searchExpression,
+            params Expression<Func<T, object>>[] includes);
 
         //CREATE
         Task AddAsync(T entity);

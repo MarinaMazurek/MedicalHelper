@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MedicalHelper.DataBase\MedicalHelper.DataBase.csproj" />
+  </ItemGroup>
+
 </Project>

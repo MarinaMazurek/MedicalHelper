@@ -16,6 +16,8 @@ namespace MedicalHelper.DataBase
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<Visit> Visits { get; set; }
         public DbSet<Vaccination> Vaccinations { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
 
         private const string ConnectingString =
             "Server=(localdb)\\MSSQLLocalDB;" +

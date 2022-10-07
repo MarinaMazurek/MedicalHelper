@@ -1,5 +1,9 @@
 using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Core.Abstractions;
+using MedicalHelper.Data.Abstractions;
+using MedicalHelper.Data.Abstractions.Repositories;
 using MedicalHelper.DataBase;
+using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Repositories;
 
 namespace MedicalHelper
@@ -28,20 +32,24 @@ namespace MedicalHelper
 
             builder.Services.AddDbContext<MedicalHelperDbContext>();
 
+            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+            builder.Services.AddScoped<IVisitService, VisitService>();
+            builder.Services.AddScoped<IMedicineService, MedicineService>();
+            builder.Services.AddScoped<IVaccinationService, VaccinationService>();
 
-            builder.Services.AddScoped<UserRepository, UserRepository>();
-            builder.Services.AddScoped<UserService, UserService>();
 
-            builder.Services.AddScoped<UserProfileRepository, UserProfileRepository>();
-            builder.Services.AddScoped<UserProfileService, UserProfileService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            builder.Services.AddScoped<IVisitRepository, VisitRepository>();
+            builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
+            builder.Services.AddScoped<IVaccinationRepository, VaccinationRepository>();
+            
+            builder.Services.AddScoped<IRepository<Role>, Repository<Role>>();
 
-            builder.Services.AddScoped<VisitRepository, VisitRepository>();
-            builder.Services.AddScoped<VisitService, VisitService>();
 
-            builder.Services.AddScoped<MedicineRepository, MedicineRepository>();
-            builder.Services.AddScoped<MedicineService, MedicineService>();
-
-            builder.Services.AddScoped<VaccinationRepository, VaccinationRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             builder.Services.AddHttpContextAccessor();

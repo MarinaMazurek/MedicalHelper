@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MedicalHelper.Data.Abstractions.Repositories
 {
-    public interface IUserProfileRepository
+    public interface IUserProfileRepository : IRepository<UserProfile>
     {
         Task<UserProfile?> GetUserProfileByUserIdAsync(Guid userId);
     }
