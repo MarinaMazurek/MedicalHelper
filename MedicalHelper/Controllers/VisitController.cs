@@ -37,7 +37,7 @@ namespace MedicalHelper.Controllers
 
             await _visitService.AddAsync(visitDto);
 
-            return RedirectToAction("GetAllVisitsAsync");
+            return RedirectToAction("GetAllVisits");
         }
 
         [HttpGet]

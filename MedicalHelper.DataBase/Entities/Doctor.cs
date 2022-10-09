@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MedicalHelper.DataBase.Entities
 {
-    public enum Doctors
+    public enum Doctor
     {
-        therapist,
-        surgeon,
-        dental,
-        neurologist,
-        ophthalmologist,
-        otolaryngologist
+        Therapist,
+        Surgeon,
+        Dental,
+        Neurologist,
+        Ophthalmologist,
+        Otolaryngologist
     }
 }

@@ -1,29 +1,24 @@
-﻿@model MedicalHelper.Models.Visit.VisitViewModel
+﻿@using MedicalHelper.DataBase.Entities
+@model MedicalHelper.Models.Visit.VisitViewModel
 
-<form action="/Visit/VisitAdd" method="post">
-    <div class="field-box">
-        <div class="filed-name">
-            Enter Specialization Of Doctor
-        </div>
-        <div class="field-value">
-            @Html.TextBoxFor(x => x.SpecializationOfDoctor)           
-        </div>
+<form asp-controller="Visit" asp-action="VisitAdd" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">FullNameOfDoctor</label>
+        <input asp-for="FullNameOfDoctor" class="form-control" id="name" required>
     </div>
-    <div class="field-box">
-        <div class="filed-name">
-            Enter FullName of Doctor
-        </div>
-        <div class="field-value">
-            @Html.TextBoxFor(x => x.FullNameOfDoctor)
-        </div>
+
+    <div class="mb-3">
+        <label for="dateTime" class="form-label">DateTime</label>
+        <input asp-for="DateTime" class="form-control" id="dateTime">
     </div>
-    <div class="field-box">
-        <div class="filed-name">
-            Enter Data of visit
-        </div>
-        <div class="field-value">
-            @Html.TextBoxFor(x => x.DateTime)
-        </div>    
-    </div>    
-    <div> <input type="submit" value="Add" /></div>
+
+    <div class="mb-3">
+        <label for="specialization" class="form-label">Specialization</label>
+        <select asp-for="Specialization" asp-items="Html.GetEnumSelectList<Doctor>()" id="specialization">
+            @* <option selected="selected" disabled="disabled">Select Source Type</option>*@
+        </select>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Submit">
+
 </form>

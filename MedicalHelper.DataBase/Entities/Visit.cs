@@ -9,7 +9,7 @@ namespace MedicalHelper.DataBase.Entities
     public class Visit : IBaseEntity
     {
         public Guid Id { get; set; }
-        public string SpecializationOfDoctor { get; set; }
+        public Doctor Specialization { get; set; }
         public string FullNameOfDoctor { get; set; }
         public DateTime DateTime { get; set; }
 

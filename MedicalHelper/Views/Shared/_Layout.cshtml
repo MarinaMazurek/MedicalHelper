@@ -25,30 +25,23 @@
                 <div><a href="/User/Register"> Create an account </a></div>
             }
 
-            <div><a href="/User/Logout"> Exit </a></div>
-
-            @if (userService.IsAdmin())
+            @if (User.Identity.IsAuthenticated)
             {
-                <div><a href="/User/GetAllUsers"> GetAllUsers </a></div>
-                <div><a href="/UserProfile/GetAllUserProfiles"> GetAllUserProfiles </a></div>
+                <div><a href="/UserProfile/MyProfile"> MyProfile </a></div>
+                <div><a href="/Visit/GetAllVisits"> GetAllVisits </a></div>
+                <div><a href="/Medicine/GetAllMedicine"> GetAllMedicine </a></div>
+                <div><a href="/Visit/VisitAdd"> VisitAdd </a></div>
+
+
+                @if (userService.IsAdmin())
+                {
+                    <div><a href="/User/GetAllUsers"> GetAllUsers </a></div>
+                    <div><a href="/UserProfile/GetAllUserProfiles"> GetAllUserProfiles </a></div>
+                }
+
+                <div><a href="/User/Logout"> Exit </a></div>
             }
-
-
-            <div><a href="/UserProfile/UserProfileAdd"> UserProfileAdd </a></div>
-            <div><a href="/UserProfile/MyProfile"> MyProfile </a></div>
-
-
-            <div><a href="/User/GetUserById"> GetUserById </a></div>
-
-
-            <div><a href="/Visit/GetAllVisits"> GetAllVisits </a></div>
-            <div><a href="/Visit/VisitAdd"> VisitAdd </a></div>
-
-
-            <div><a href="/Medicine/GetMedicine"> GetMedicine </a></div>
-            <div><a href="/Medicine/GetAllMedicine"> GetAllMedicine </a></div>
-
-            
+                        
             </div>
             <div class="content">
                 @RenderBody()
