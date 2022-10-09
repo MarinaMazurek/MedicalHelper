@@ -58,6 +58,6 @@ namespace MedicalHelper.Repositories
                     current.Include(include));
             }
             return result;
-        }
+        }               
     }
 }

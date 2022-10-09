@@ -1,4 +1,9 @@
-﻿
+﻿@using MedicalHelper.Business.ServicesImplementations
+@using MedicalHelper.Core.Abstractions
+
+@inject IUserService userService
+
+
 <html>
     <head>
         <link rel="stylesheet" href="~/css/site.css">
@@ -13,16 +18,27 @@
         <div class="central-block">
             <div class="menu">
                 Menu
-            
-            <div><a href="/UserProfile/GetAllUserProfiles"> GetAllUserProfiles </a></div>
+                
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div><a href="/User/Login"> Sign in </a></div>
+                <div><a href="/User/Register"> Create an account </a></div>
+            }
+
+            <div><a href="/User/Logout"> Exit </a></div>
+
+            @if (userService.IsAdmin())
+            {
+                <div><a href="/User/GetAllUsers"> GetAllUsers </a></div>
+                <div><a href="/UserProfile/GetAllUserProfiles"> GetAllUserProfiles </a></div>
+            }
+
+
             <div><a href="/UserProfile/UserProfileAdd"> UserProfileAdd </a></div>
             <div><a href="/UserProfile/MyProfile"> MyProfile </a></div>
 
 
             <div><a href="/User/GetUserById"> GetUserById </a></div>
-            <div><a href="/User/GetAllUsers"> GetAllUsers </a></div>
-            <div><a href="/User/Register"> Register </a></div>
-            <div><a href="/User/Login"> Login </a></div>
 
 
             <div><a href="/Visit/GetAllVisits"> GetAllVisits </a></div>
@@ -41,7 +57,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - AspNetSampleMvcApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - MedicalHelper - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 

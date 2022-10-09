@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,12 +8,12 @@ namespace MedicalHelper.Controllers
 {
     public class VaccinationController : Controller
     {
-        private readonly VaccinationService _vaccinationService;
-        private readonly UserService _userService;
+        private readonly IVaccinationService _vaccinationService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public VaccinationController(VaccinationService vaccinationService,
-            UserService userService, IMapper mapper)
+        public VaccinationController(IVaccinationService vaccinationService,
+            IUserService userService, IMapper mapper)
         {
             _vaccinationService = vaccinationService;
             _userService = userService;

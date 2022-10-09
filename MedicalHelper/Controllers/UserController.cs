@@ -35,15 +35,19 @@ namespace MedicalHelper.Controllers
                 return View(viewModel);
             }
 
+            var userRoleId = await _roleService.GetRoleIdByNameAsync("User");
+
             var userDtoReturn = await _userService
                 .GetUserByEmailAndPasswordAsync(viewModel.Email, viewModel.Password);
 
             if (userDtoReturn == null)
             {
                 var userDto = _mapper.Map<UserDto>(viewModel);
-                await _userService.AddAsync(userDto);
+                
+                userDto.RoleId = userRoleId.Value;
 
-                // делаем запрос, чтобы получить id - нужно для claim
+                await _userService.AddAsync(userDto);
+                                
                 var userDtoForId = await _userService
                     .GetUserByEmailAndPasswordAsync(viewModel.Email, viewModel.Password);
 
@@ -79,10 +83,6 @@ namespace MedicalHelper.Controllers
             }           
         }
 
-
-
-
-
         [HttpGet]
         public IActionResult Login()
         {
@@ -109,6 +109,12 @@ namespace MedicalHelper.Controllers
 
             // TO DO
             return RedirectToAction("MyProfile", "UserProfile");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login");
         }
 
         [HttpGet]

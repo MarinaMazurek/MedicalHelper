@@ -12,7 +12,11 @@ namespace MedicalHelper.MappingProfiles
     {
         public MappingProfiles()
         {            
-            CreateMap<RegistrationViewModel,UserDto>();
+            CreateMap<RegistrationViewModel,UserDto>()
+                .ForMember(u => u.PasswordHash,
+                opt =>
+                    opt.MapFrom(viewModel => viewModel.Password));
+
             CreateMap<UserDto, User>();
             CreateMap<User, UserDto>();
             CreateMap<UserDto,UserViewModel>();

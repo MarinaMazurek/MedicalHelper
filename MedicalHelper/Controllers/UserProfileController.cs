@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Models.User;
@@ -10,12 +11,12 @@ namespace MedicalHelper.Controllers
 {
     public class UserProfileController : Controller
     {
-        private readonly UserService _userService;
-        private readonly UserProfileService _userProfileService;
+        private readonly IUserService _userService;
+        private readonly IUserProfileService _userProfileService;
         private readonly IMapper _mapper;
 
-        public UserProfileController(UserService userService, 
-            UserProfileService userProfileService, IMapper mapper)
+        public UserProfileController(IUserService userService, 
+            IUserProfileService userProfileService, IMapper mapper)
         {
             _userService = userService;
             _userProfileService = userProfileService;

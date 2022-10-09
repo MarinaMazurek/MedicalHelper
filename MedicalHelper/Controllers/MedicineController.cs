@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +9,9 @@ namespace MedicalHelper.Controllers
 {
     public class MedicineController : Controller
     {
-        private readonly MedicineService _medicineService;
+        private readonly IMedicineService _medicineService;
         private readonly IMapper _mapper;
-        public MedicineController(MedicineService medicineService, IMapper mapper)
+        public MedicineController(IMedicineService medicineService, IMapper mapper)
         {
             _medicineService = medicineService;
             _mapper = mapper;

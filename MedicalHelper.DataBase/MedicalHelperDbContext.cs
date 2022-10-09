@@ -43,6 +43,12 @@ namespace MedicalHelper.DataBase
                 .HasForeignKey<UserProfile>(p => p.UserId);
 
             modelBuilder
+              .Entity<Role>()
+              .HasMany(u => u.Users)
+              .WithOne(p => p.Role)
+              .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder
                 .Entity<User>()
                 .HasMany(u => u.Vaccinations)
                 .WithOne(p => p.User)

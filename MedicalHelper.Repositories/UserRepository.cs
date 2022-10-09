@@ -19,5 +19,10 @@ namespace MedicalHelper.Repositories
             return await _dbSet
                 .SingleOrDefaultAsync(x => x.Email == email && x.PasswordHash == passwordHash);
         }
+
+        //public bool Exist(string email)
+        //{
+        //    return _dbSet.Any(x => x.Email == email);
+        //}
     }
 }

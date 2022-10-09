@@ -23,6 +23,8 @@ namespace MedicalHelper.Core.Abstractions
 
         Task<User?> GetCurrentUserAsync();
 
-        ClaimsPrincipal GetPrincipal(UserDto userDto);        
+        ClaimsPrincipal GetPrincipal(UserDto userDto);
+
+        bool IsAdmin();
     }
 }

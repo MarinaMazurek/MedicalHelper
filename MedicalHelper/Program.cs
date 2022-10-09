@@ -4,6 +4,7 @@ using MedicalHelper.Data.Abstractions;
 using MedicalHelper.Data.Abstractions.Repositories;
 using MedicalHelper.DataBase;
 using MedicalHelper.DataBase.Entities;
+using MedicalHelper.Extantions;
 using MedicalHelper.Repositories;
 
 namespace MedicalHelper
@@ -13,7 +14,6 @@ namespace MedicalHelper
         public const string AuthName = "MedicalHelperCoockie";
         public static void Main(string[] args)
         {
-
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddAuthentication(AuthName)
@@ -24,6 +24,10 @@ namespace MedicalHelper
                     config.Cookie.Name = "Smile";
                 });
 
+            builder.Services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -54,9 +58,8 @@ namespace MedicalHelper
 
             builder.Services.AddHttpContextAccessor();
 
-
-
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -76,6 +79,8 @@ namespace MedicalHelper
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            
+            app.Seed();
 
             app.Run();
         }

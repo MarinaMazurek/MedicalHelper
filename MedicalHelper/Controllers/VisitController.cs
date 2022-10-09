@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MedicalHelper.Business.ServicesImplementations;
+using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Models.UserProfile;
 using MedicalHelper.Models.Visit;
@@ -9,11 +10,11 @@ namespace MedicalHelper.Controllers
 {
     public class VisitController : Controller
     {
-        private readonly UserService _userService;
-        private readonly VisitService _visitService;
+        private readonly IUserService _userService;
+        private readonly IVisitService _visitService;
         private readonly IMapper _mapper;
 
-        public VisitController(UserService userService, VisitService visitService, IMapper mapper)
+        public VisitController(IUserService userService, IVisitService visitService, IMapper mapper)
         {
             _userService = userService;
             _visitService = visitService;

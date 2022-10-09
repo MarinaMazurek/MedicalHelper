@@ -87,5 +87,7 @@ namespace MedicalHelper.Business.ServicesImplementations
 
             return new ClaimsPrincipal(claimsIdentity);
         }
+
+        public bool IsAdmin() => GetCurrentUserAsync()?.Result?.Role?.Name == "Admin";
     }
 }

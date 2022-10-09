@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalHelper.DataBase.Migrations
 {
     [DbContext(typeof(MedicalHelperDbContext))]
-    [Migration("20221002124255_email")]
-    partial class email
+    [Migration("20221007193836_j")]
+    partial class j
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,6 +50,21 @@ namespace MedicalHelper.DataBase.Migrations
                     b.ToTable("Medicines");
                 });
 
+            modelBuilder.Entity("MedicalHelper.DataBase.Entities.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("MedicalHelper.DataBase.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -60,11 +75,16 @@ namespace MedicalHelper.DataBase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -170,6 +190,17 @@ namespace MedicalHelper.DataBase.Migrations
                     b.Navigation("Visit");
                 });
 
+            modelBuilder.Entity("MedicalHelper.DataBase.Entities.User", b =>
+                {
+                    b.HasOne("MedicalHelper.DataBase.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("MedicalHelper.DataBase.Entities.UserProfile", b =>
                 {
                     b.HasOne("MedicalHelper.DataBase.Entities.User", "User")
@@ -201,6 +232,11 @@ namespace MedicalHelper.DataBase.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MedicalHelper.DataBase.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("MedicalHelper.DataBase.Entities.User", b =>
