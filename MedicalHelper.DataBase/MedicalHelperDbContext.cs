@@ -1,11 +1,5 @@
 ﻿using MedicalHelper.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalHelper.DataBase
 {
@@ -19,20 +13,10 @@ namespace MedicalHelper.DataBase
         public DbSet<Role> Roles { get; set; }
 
 
-        private const string ConnectingString =
-            "Server=(localdb)\\MSSQLLocalDB;" +
-            "Database=MedicalHelperDb;" +
-            "Trusted_Connection=True";
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public MedicalHelperDbContext(DbContextOptions<MedicalHelperDbContext> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlServer(ConnectingString);
         }
-
-
-        //public MedicalHelperDbContext(DbContextOptions options) : base(options)
-        //{
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

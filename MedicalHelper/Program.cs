@@ -6,6 +6,7 @@ using MedicalHelper.DataBase;
 using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Extantions;
 using MedicalHelper.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalHelper
 {
@@ -24,6 +25,14 @@ namespace MedicalHelper
                     config.Cookie.Name = "Smile";
                 });
 
+            var connectionString = builder.Configuration.GetConnectionString("Default");
+
+            builder.Services.AddDbContext<MedicalHelperDbContext>(
+                optionsBuilder => optionsBuilder.UseSqlServer(connectionString));
+
+            //builder.Services.AddDbContext<MedicalHelperDbContext>();
+
+
             builder.Services.Configure<IISServerOptions>(options =>
             {
                 options.AutomaticAuthentication = false;
@@ -33,8 +42,7 @@ namespace MedicalHelper
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            builder.Services.AddDbContext<MedicalHelperDbContext>();
+                       
 
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IUserService, UserService>();
@@ -52,8 +60,10 @@ namespace MedicalHelper
             
             builder.Services.AddScoped<IRepository<Role>, Repository<Role>>();
 
-
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+            builder.Configuration.AddJsonFile("secrets.json");
 
 
             builder.Services.AddHttpContextAccessor();

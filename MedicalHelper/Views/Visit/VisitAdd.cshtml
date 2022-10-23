@@ -3,22 +3,24 @@
 
 <form asp-controller="Visit" asp-action="VisitAdd" method="post">
     <div class="mb-3">
-        <label for="name" class="form-label">FullNameOfDoctor</label>
-        <input asp-for="FullNameOfDoctor" class="form-control" id="name" required>
-    </div>
-
-    <div class="mb-3">
-        <label for="dateTime" class="form-label">DateTime</label>
-        <input asp-for="DateTime" class="form-control" id="dateTime">
-    </div>
-
-    <div class="mb-3">
         <label for="specialization" class="form-label">Specialization</label>
         <select asp-for="Specialization" asp-items="Html.GetEnumSelectList<Doctor>()" id="specialization">
             @* <option selected="selected" disabled="disabled">Select Source Type</option>*@
         </select>
     </div>
+    
+    <div class="mb-3">
+        <label for="name" class="form-label">Full Name Of Doctor</label>
+        <input asp-for="FullNameOfDoctor" class="form-control" id="name" required>
+    </div>
 
-    <input type="submit" class="btn btn-primary" value="Submit">
+    <div class="mb-3">
+        <label for="dateTime" class="form-label">Date</label>
+        <input asp-for="DateTime" class="form-control" id="dateTime">
+    </div>
+
+    
+
+    <input type="submit" class="btn btn-primary" value="Add">
 
 </form>

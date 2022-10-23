@@ -5,6 +5,7 @@ using MedicalHelper.Data.Abstractions;
 using MedicalHelper.DataBase.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
 namespace MedicalHelper.Business.ServicesImplementations
@@ -15,18 +16,25 @@ namespace MedicalHelper.Business.ServicesImplementations
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _configuration;
 
         public UserService(IUnitOfWork unitOfWork, IMapper mapper, 
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
         }
 
         public async Task AddAsync(UserDto userDto)
         {
             var entity = _mapper.Map<User>(userDto);
+
+            var password = CreateMd5(entity.PasswordHash);
+
+            entity.PasswordHash = password;
+
             await _unitOfWork.Users.AddAsync(entity);
         }
 
@@ -38,12 +46,18 @@ namespace MedicalHelper.Business.ServicesImplementations
 
         public async Task<UserDto> GetUserByEmailAndPasswordAsync(string email, string password)
         {
-            var user = await _unitOfWork.Users.GetUserByEmailAndPasswordAsync(email, password);
+            var passwordMd5 = CreateMd5(password); 
+            var user = await _unitOfWork.Users
+                .GetUserByEmailAndPasswordAsync(email, passwordMd5);
+             
+            if(user != null)
+            {
+                user.PasswordHash = password;
+            }
             var userReturnDto = _mapper.Map<UserDto>(user);
-            return userReturnDto;
+            return userReturnDto;            
         }
-
-        //для администратора
+                
         public async Task<UserDto> GetUserByIdAsync(Guid id)
         {
             var user = await _unitOfWork.Users.GetEntityByIdAsync(id);
@@ -89,5 +103,18 @@ namespace MedicalHelper.Business.ServicesImplementations
         }
 
         public bool IsAdmin() => GetCurrentUserAsync()?.Result?.Role?.Name == "Admin";
+
+        private string CreateMd5(string password)
+        {
+            var passwordSalt = _configuration["UserSecrets:PasswordSalt"];
+
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                var inputBytes = System.Text.Encoding.UTF8.GetBytes(password + passwordSalt);
+                var hashBytes = md5.ComputeHash(inputBytes);
+
+                return Convert.ToHexString(hashBytes);
+            }
+        }
     }
 }

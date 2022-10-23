@@ -27,16 +27,16 @@
 
             @if (User.Identity.IsAuthenticated)
             {
-                <div><a href="/UserProfile/MyProfile"> MyProfile </a></div>
-                <div><a href="/Visit/GetAllVisits"> GetAllVisits </a></div>
-                <div><a href="/Medicine/GetAllMedicine"> GetAllMedicine </a></div>
-                <div><a href="/Visit/VisitAdd"> VisitAdd </a></div>
+                <div><a href="/UserProfile/MyProfile"> My Profile </a></div>               
+                <div><a href="/Visit/VisitAdd"> Add visit </a></div>
+                <div><a href="/Visit/GetAllVisits"> All my visits </a></div>
+                <div><a href="/Medicine/GetAllMedicine"> All Medicines </a></div>
 
 
                 @if (userService.IsAdmin())
                 {
-                    <div><a href="/User/GetAllUsers"> GetAllUsers </a></div>
-                    <div><a href="/UserProfile/GetAllUserProfiles"> GetAllUserProfiles </a></div>
+                    <div><a href="/User/GetAllUsers"> Get All Users </a></div>
+                    <div><a href="/UserProfile/GetAllUserProfiles"> Get All UserProfiles </a></div>
                 }
 
                 <div><a href="/User/Logout"> Exit </a></div>
