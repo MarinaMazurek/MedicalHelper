@@ -40,6 +40,8 @@ namespace MedicalHelper.Repositories
         public virtual void Remove(T entity)
         {
             _dbSet.Remove(entity);
+
+            _dbContext.SaveChanges();
         }
 
         public virtual async Task AddAsync(T entity)

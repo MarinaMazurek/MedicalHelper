@@ -12,6 +12,8 @@ namespace MedicalHelper.Core.Abstractions
     {
         Task AddAsync(VisitDto visitDto);
 
+        Task DeleteVisitByIdAsync(Guid id);
+
         Task<List<VisitDto>> GetAllVisitsAsync(Guid id);        
     }
 }

@@ -41,14 +41,12 @@ namespace MedicalHelper.DataBase
             modelBuilder
                .Entity<User>()
                .HasMany(u => u.Visits)
-               .WithOne(p => p.User)
-               .OnDelete(DeleteBehavior.Cascade);
+               .WithOne(p => p.User);
 
             modelBuilder
                 .Entity<Visit>()
                 .HasMany(u => u.Medicines)
-                .WithOne(p => p.Visit)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithOne(p => p.Visit);
 
             //modelBuilder
             //.Entity<UserProfile>()

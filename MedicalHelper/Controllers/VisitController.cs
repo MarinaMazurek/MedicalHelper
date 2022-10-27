@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using MedicalHelper.Business.ServicesImplementations;
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
-using MedicalHelper.Models.UserProfile;
 using MedicalHelper.Models.Visit;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +35,14 @@ namespace MedicalHelper.Controllers
 
             await _visitService.AddAsync(visitDto);
 
+            return RedirectToAction("GetAllVisits");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> VisitDelete(Guid id)
+        {
+            _visitService.DeleteVisitByIdAsync(id);
+            
             return RedirectToAction("GetAllVisits");
         }
 

@@ -3,14 +3,20 @@
 @model List<VisitViewModel>
 
 <div>
-    <tr>
+    <table border="1" align="center" cellspacing="0" cellpadding="10">      
         @foreach (var visit in Model)
         {
-            <p>
-            <th>@visit.Specialization</th>
-            <th>@visit.FullNameOfDoctor</th>
-            <th>@visit.DateTime</th>         
-            </p>
+            <tr>
+                <th>@visit.Specialization</th>
+                <th>@visit.FullNameOfDoctor</th>
+                <th>@visit.DateTime</th>
+                <th>
+                    <input class="button"
+                           type="button"
+                           value="Delete visit"
+                           onclick="location.href='/Visit/VisitDelete?id=@visit.Id'" />
+                </th>
+            </tr>
         }
-    </tr>
+    </table>
 </div>
