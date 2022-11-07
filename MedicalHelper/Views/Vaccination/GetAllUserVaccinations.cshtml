@@ -1,14 +1,17 @@
 ﻿@model List<MedicalHelper.Models.VaccinationViewModel>
 
 <div>
-    <tr>
+    <table border="1" align="center" cellspacing="0" cellpadding="10">
+        <tr>
+            <th>Vaccination Name</th>
+            <th>Vaccination Date</th> 
+        </tr>
         @foreach (var vaccination in Model)
         {
-            <p>
-            <th>@vaccination.Name</th>
-            <th>@vaccination.Date</th>
-            </p>
+            <tr>
+                <th>@vaccination.Name</th>
+                <th>@vaccination.Date</th>               
+            </tr>
         }
-    </tr>
+    </table>
 </div>
-

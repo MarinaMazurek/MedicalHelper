@@ -3,16 +3,10 @@ using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Data.Abstractions;
 using MedicalHelper.DataBase.Entities;
-using MedicalHelper.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalHelper.Business.ServicesImplementations
 {
-    public class VisitService: IVisitService
+    public class VisitService : IVisitService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
