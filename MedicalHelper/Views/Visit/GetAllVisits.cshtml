@@ -4,10 +4,18 @@
 
 <div>
     <table border="1" align="center" cellspacing="0" cellpadding="10">      
+        <tr>
+            <th>Specialization</th>
+            <th>Name</th>
+            <th>FullNameOfDoctor</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
         @foreach (var visit in Model)
         {
             <tr>
                 <th>@visit.Specialization</th>
+                <th>@visit.Name</th>
                 <th>@visit.FullNameOfDoctor</th>
                 <th>@visit.DateTime</th>
                 <th>

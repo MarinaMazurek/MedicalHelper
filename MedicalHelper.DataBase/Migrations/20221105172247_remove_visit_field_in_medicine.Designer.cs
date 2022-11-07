@@ -4,6 +4,7 @@ using MedicalHelper.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalHelper.DataBase.Migrations
 {
     [DbContext(typeof(MedicalHelperDbContext))]
-    partial class MedicalHelperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221105172247_remove_visit_field_in_medicine")]
+    partial class remove_visit_field_in_medicine
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,7 @@ namespace MedicalHelper.DataBase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("VisitId")
+                    b.Property<Guid?>("VisitId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -156,10 +158,6 @@ namespace MedicalHelper.DataBase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Specialization")
                         .HasColumnType("int");
 
@@ -175,13 +173,9 @@ namespace MedicalHelper.DataBase.Migrations
 
             modelBuilder.Entity("MedicalHelper.DataBase.Entities.Medicine", b =>
                 {
-                    b.HasOne("MedicalHelper.DataBase.Entities.Visit", "Visit")
+                    b.HasOne("MedicalHelper.DataBase.Entities.Visit", null)
                         .WithMany("Medicines")
-                        .HasForeignKey("VisitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Visit");
+                        .HasForeignKey("VisitId");
                 });
 
             modelBuilder.Entity("MedicalHelper.DataBase.Entities.User", b =>

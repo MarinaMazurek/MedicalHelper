@@ -1,15 +1,28 @@
 ﻿@model List<MedicalHelper.Models.MedicineViewModel>
 
 <div>
-    <tr>
+    <table border="1" align="center" cellspacing="0" cellpadding="10">
+        <tr>
+            <th>Name</th>
+            <th>Cost</th>
+            <th>Specialization Of Doctor</th>
+            <th>Visit DateTime</th>
+            <th></th>
+        </tr>
         @foreach (var medicine in Model)
         {
-            <p>
-            <th>@medicine.Name</th>
-            <th>@medicine.Cost</th>
-            <th>@medicine.FullCost</th>
-            </p>
+            <tr>
+                <th>@medicine.Name</th>
+                <th>@medicine.Cost</th>
+                <th>@medicine.SpecializationOfDoctor</th>
+                <th>@medicine.VisitDateTime</th>
+                <th>
+                    <input class="button"
+                       type="button"
+                       value="Delete medicine"
+                       onclick="location.href='/Medicine/MedicineDelete?id=@medicine.Id'" />
+                </th>
+            </tr>
         }
-    </tr>
+    </table>
 </div>
-

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using MedicalHelper.Business.ServicesImplementations;
 using MedicalHelper.Core.Abstractions;
+using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Models;
+using MedicalHelper.Models.Visit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHelper.Controllers
@@ -19,6 +21,27 @@ namespace MedicalHelper.Controllers
             _userService = userService;
             _mapper = mapper;
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> VaccinationAdd()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> VaccinationAdd(VaccinationViewModel viewModel)
+        {
+            var userDto = await _userService.GetCurrentUserAsync();
+
+            var vaccinationDto = _mapper.Map<VaccinationDto>(viewModel);
+            vaccinationDto.UserId = userDto.Id;
+
+            await _vaccinationService.AddAsync(vaccinationDto);
+
+            return RedirectToAction("GetAllUserVaccinations");
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAllUserVaccinations()

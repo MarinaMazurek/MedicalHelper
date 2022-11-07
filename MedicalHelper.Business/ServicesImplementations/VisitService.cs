@@ -35,9 +35,16 @@ namespace MedicalHelper.Business.ServicesImplementations
             _unitOfWork.Visits.Remove(entity);
         }
 
-        public async Task<List<VisitDto>> GetAllVisitsAsync(Guid id)
+        public async Task<VisitDto> GetVisitByIdAsync(Guid id)
         {
-            var entities = await _unitOfWork.Visits.GetAllVisitsByUserIdAsync(id);
+            var entity = await _unitOfWork.Visits.GetEntityByIdAsync(id);
+            var visitDto = _mapper.Map<VisitDto>(entity);
+            return visitDto;
+        }
+
+        public async Task<List<VisitDto>> GetAllVisitsAsync(Guid userId)
+        {
+            var entities = await _unitOfWork.Visits.GetAllVisitsByUserIdAsync(userId);
             var visitsDto = _mapper.Map<List<VisitDto>>(entities);
             return visitsDto;
         }

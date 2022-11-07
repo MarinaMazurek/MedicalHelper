@@ -4,6 +4,7 @@ using MedicalHelper.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalHelper.DataBase.Migrations
 {
     [DbContext(typeof(MedicalHelperDbContext))]
-    partial class MedicalHelperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221105192924_medicineModel")]
+    partial class medicineModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,10 +155,6 @@ namespace MedicalHelper.DataBase.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FullNameOfDoctor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

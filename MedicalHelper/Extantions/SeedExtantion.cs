@@ -10,8 +10,8 @@ namespace MedicalHelper.Extantions
         {
             using (var service = host.Services.CreateScope())
             {
-                InitUsers(service.ServiceProvider);
-                InitRole(service.ServiceProvider);
+                //InitUsers(service.ServiceProvider);
+                //InitRole(service.ServiceProvider);
             }
             return host;
         }

@@ -28,6 +28,7 @@ namespace MedicalHelper.MappingProfiles
 
             CreateMap<Visit, VisitDto>();
             CreateMap<VisitDto, Visit>();
+
             CreateMap<VisitViewModel, VisitDto>();
             CreateMap<VisitDto, VisitViewModel>();
 

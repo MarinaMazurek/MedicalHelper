@@ -11,7 +11,8 @@ namespace MedicalHelper.DataBase.Entities
         public Guid Id { get; set; }
         public string Name { get; set; }
         public double Cost { get; set; }
-        public double FullCost { get; set; }
+
+        //public double FullCost { get; set; }
 
         public Guid VisitId { get; set; }
         public Visit Visit { get; set; }

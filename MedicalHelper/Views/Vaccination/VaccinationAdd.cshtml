@@ -1,0 +1,17 @@
+﻿@using MedicalHelper.DataBase.Entities
+@model MedicalHelper.Models.VaccinationViewModel
+
+<form asp-controller="Vaccination" asp-action="VaccinationAdd" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Vaccination Name</label>
+        <input asp-for="Name" class="form-control" id="name" required>
+    </div>
+    
+    <div class="mb-3">
+        <label for="Date" class="form-label">Date</label>
+        <input asp-for="Date" class="form-control" id="dateTime">
+    </div>
+    
+    <input type="submit" class="btn btn-primary" value="Add">
+
+</form>

@@ -2,17 +2,10 @@
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Data.Abstractions;
-using MedicalHelper.Data.Abstractions.Repositories;
 using MedicalHelper.DataBase.Entities;
-using MedicalHelper.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalHelper.Business.ServicesImplementations
-{    
+{
     public class VaccinationService : IVaccinationService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -22,6 +15,12 @@ namespace MedicalHelper.Business.ServicesImplementations
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+        }
+
+        public async Task AddAsync(VaccinationDto vaccinationDto)
+        {
+            var entity = _mapper.Map<Vaccination>(vaccinationDto);
+            await _unitOfWork.Vaccinations.AddAsync(entity);
         }
 
         public async Task<List<VaccinationDto>> GetAllVaccinationsAsync(Guid id)

@@ -3,7 +3,6 @@
 
 @inject IUserService userService
 
-
 <html>
     <head>
         <link rel="stylesheet" href="~/css/site.css">
@@ -11,14 +10,15 @@
     <body> 
         <div class="header">
             <img src="~/image/meditsina.jpg" />
-            Medical Helper
+                <span class="MH">
+                    Medical Helper
+                </span>
             <img src="~/image/meditsina.jpg" />
         </div>
 
         <div class="central-block">
             <div class="menu">
-                Menu
-                
+                            
             @if (!User.Identity.IsAuthenticated)
             {
                 <div><a href="/User/Login"> Sign in </a></div>
@@ -27,12 +27,17 @@
 
             @if (User.Identity.IsAuthenticated)
             {
-                <div><a href="/UserProfile/MyProfile"> My Profile </a></div>               
+                <div><a href="/UserProfile/MyProfile"> My Profile </a></div>
+
                 <div><a href="/Visit/VisitAdd"> Add visit </a></div>
                 <div><a href="/Visit/GetAllVisits"> All my visits </a></div>
+
+                <div><a href="/Medicine/MedicineAdd"> Add Medicine </a></div>
                 <div><a href="/Medicine/GetAllMedicine"> All Medicines </a></div>
 
-
+                <div><a href="/Vaccination/VaccinationAdd"> Add Vaccinations </a></div>
+                <div><a href="/Vaccination/GetAllUserVaccinations"> All Vaccinations </a></div>
+                               
                 @if (userService.IsAdmin())
                 {
                     <div><a href="/User/GetAllUsers"> Get All Users </a></div>
@@ -53,7 +58,6 @@
             &copy; 2022 - MedicalHelper - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

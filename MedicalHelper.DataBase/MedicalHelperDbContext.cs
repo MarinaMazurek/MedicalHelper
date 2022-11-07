@@ -43,10 +43,10 @@ namespace MedicalHelper.DataBase
                .HasMany(u => u.Visits)
                .WithOne(p => p.User);
 
-            modelBuilder
-                .Entity<Visit>()
-                .HasMany(u => u.Medicines)
-                .WithOne(p => p.Visit);
+            //modelBuilder
+            //    .Entity<Visit>()
+            //    .HasMany(u => u.Medicines)
+            //    .WithOne(p => p.Visit);
 
             //modelBuilder
             //.Entity<UserProfile>()
