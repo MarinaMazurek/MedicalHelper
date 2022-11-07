@@ -10,10 +10,13 @@
         max-height: 80px;
     }
 
-img {
-    /*margin: 15px;*/
+img {    
     max-width: 250px;
     max-height: 250px;
+}
+
+.Image {
+    margin: 12px;
 }
 
 .central-block {
