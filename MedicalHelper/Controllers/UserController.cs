@@ -4,6 +4,7 @@ using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Models.User;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHelper.Controllers
@@ -135,6 +136,26 @@ namespace MedicalHelper.Controllers
             var viewModels = _mapper.Map<List<UserViewModel>>(allUsersDto);
 
             return View(viewModels);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> UserLoginPreview()
+        {
+            var currentUser = await _userService.GetCurrentUserAsync();
+            var user = _mapper.Map<UserViewModel>(currentUser);
+
+            return View(user);
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetUserData()
+        {
+            var currentUser = await _userService.GetCurrentUserAsync();
+            var user = _mapper.Map<UserViewModel>(currentUser);
+            return Ok(user);
         }
     }
 }

@@ -2,13 +2,13 @@
     background:aqua;
     font-size:30px;
     text-align:center;
-     height:60px;
+    height:60px;
 }
 
-    .header img {
-        max-width: 80px;
-        max-height: 80px;
-    }
+.header img {
+    max-width: 80px;
+    max-height: 80px;
+}
 
 img {    
     max-width: 250px;

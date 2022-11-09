@@ -1,0 +1,12 @@
+﻿@model MedicalHelper.Models.User.UserViewModel
+
+@{
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-action="GetUserData" asp-controller="User">Hello @Model.Email</a>
+    </li>    
+}

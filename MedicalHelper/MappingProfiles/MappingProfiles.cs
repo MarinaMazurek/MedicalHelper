@@ -20,6 +20,7 @@ namespace MedicalHelper.MappingProfiles
             CreateMap<UserDto, User>();
             CreateMap<User, UserDto>();
             CreateMap<UserDto,UserViewModel>();
+            CreateMap<User, UserViewModel>();
 
             CreateMap<UserProfileAddViewModel, UserProfileDto>()
                  .ForMember(u => u.FullName,

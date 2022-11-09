@@ -13,8 +13,18 @@
                 <span class="MH">
                     Medical Helper
                 </span>
-            <img src="~/image/meditsina.jpg" />
+            <img src="~/image/meditsina.jpg" />                       
         </div>
+
+
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </nav>
+
 
         <div class="central-block">
             <div class="menu">
@@ -62,6 +72,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/auth.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
     </body>
