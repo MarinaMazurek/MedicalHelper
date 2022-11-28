@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHelper.Core", "Medic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHelper.Business", "MedicalHelper.Business\MedicalHelper.Business.csproj", "{4C006033-B13B-4754-8765-DD0BC81CF59C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHelper.Data.Abstractions", "MedicalHelper.Data.Abstractions\MedicalHelper.Data.Abstractions.csproj", "{7EFC2753-6D6A-4844-B288-07F9CFB3EFF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHelper.Data.Abstractions", "MedicalHelper.Data.Abstractions\MedicalHelper.Data.Abstractions.csproj", "{7EFC2753-6D6A-4844-B288-07F9CFB3EFF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHelper.WebAPI", "MedicalHelper.WebAPI\MedicalHelper.WebAPI.csproj", "{5431F0A5-74BD-4BBD-B729-13BD01265CE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{7EFC2753-6D6A-4844-B288-07F9CFB3EFF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EFC2753-6D6A-4844-B288-07F9CFB3EFF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EFC2753-6D6A-4844-B288-07F9CFB3EFF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5431F0A5-74BD-4BBD-B729-13BD01265CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5431F0A5-74BD-4BBD-B729-13BD01265CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5431F0A5-74BD-4BBD-B729-13BD01265CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5431F0A5-74BD-4BBD-B729-13BD01265CE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
