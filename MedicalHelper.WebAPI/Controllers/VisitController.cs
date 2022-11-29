@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
+using MedicalHelper.DataBase.Entities;
 using MedicalHelper.WebAPI.Models;
 using MedicalHelper.WebAPI.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MedicalHelper.WebAPI.Controllers
 {
@@ -56,7 +58,7 @@ namespace MedicalHelper.WebAPI.Controllers
         {
             //TODO: var userDto = await _userService.GetCurrentUserAsync();
             
-            var allVisitsDto = await _visitService.GetAllVisitsAsync(new Guid("77029fd9-9550-47f5-d837-08daa89f2be5"));
+            var allVisitsDto = await _visitService.GetAllVisitsAsync(new Guid("87f738b6-acae-4839-0182-08dad2432688"));
             
             if (allVisitsDto == null || !allVisitsDto.Any())
             {
@@ -87,6 +89,93 @@ namespace MedicalHelper.WebAPI.Controllers
                 return BadRequest(new ErrorModel { Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Update Visit
+        /// </summary>
+        /// <param name="id">Id of visit</param>
+        /// <param name="visitModel">Model of visit for update</param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateVisit(Guid id, [FromBody] UpdateVisitModel? visitModel)
+        {
+            if (visitModel == null)
+            {
+                return BadRequest();
+            }
+
+            var oldVisit = await _visitService.GetVisitByIdAsync(id);
+            
+            if (oldVisit == null)
+            {
+                return NotFound();
+            }
+
+            var newVisit = new VisitDto()
+            {
+                Id = oldVisit.Id,
+                Name = visitModel.Name,
+                Specialization = visitModel.Specialization,
+                FullNameOfDoctor = visitModel.FullNameOfDoctor,
+                DateTime = visitModel.DateTime,
+                UserId = new Guid("87f738b6-acae-4839-0182-08dad2432688")
+            };
+
+            await _visitService.DeleteVisitByIdAsync(id);
+            await _visitService.AddAsync(newVisit);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Update name of doctor in visit
+        /// </summary>
+        /// <param name="id">Id of visit</param>
+        /// <param name="visitModel">Model of visit for update</param>
+        /// <returns></returns>
+        [HttpPatch("{id}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateVisit(Guid id, [FromBody] PatchVisitModel? visitModel)
+        {
+            if (visitModel == null)
+            {
+                return BadRequest();
+            }
+
+            var oldVisit = await _visitService.GetVisitByIdAsync(id);
+
+            if (oldVisit == null)
+            {
+                return NotFound();
+            }
+
+            var newVisit = new VisitDto()
+            {
+                Id = oldVisit.Id,
+                Name = oldVisit.Name,
+                Specialization = oldVisit.Specialization,
+                SpecializationOfDoctor = oldVisit.SpecializationOfDoctor,
+                FullNameOfDoctor = visitModel.FullNameOfDoctor,
+                DateTime = oldVisit.DateTime,
+                Medicines = oldVisit.Medicines,
+                UserId = new Guid("87f738b6-acae-4839-0182-08dad2432688")
+            };
+
+            await _visitService.DeleteVisitByIdAsync(id);
+            await _visitService.AddAsync(newVisit);
+
+            return Ok();
+        }
+
+
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> VisitAdd(VisitModel visitModel)
