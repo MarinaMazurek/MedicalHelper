@@ -4,6 +4,7 @@ using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.DataBase.Entities;
 using MedicalHelper.WebAPI.Models;
 using MedicalHelper.WebAPI.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -176,7 +177,7 @@ namespace MedicalHelper.WebAPI.Controllers
 
 
 
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> VisitAdd(VisitModel visitModel)
         {

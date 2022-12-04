@@ -65,6 +65,13 @@ namespace MedicalHelper.Business.ServicesImplementations
             return userReturnDto;
         }
 
+        public async Task<UserDto> GetUserByEmailAsync(string email)
+        {
+            var user = await _unitOfWork.Users.GetUserByEmailAsync(email);
+            var userReturnDto = _mapper.Map<UserDto>(user);
+            return userReturnDto;
+        }
+
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
             var users = await _unitOfWork.Users.GetAllAsync();

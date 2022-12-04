@@ -2,6 +2,7 @@
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.DataBase.Entities;
 using MedicalHelper.WebAPI.Models;
+using MedicalHelper.WebAPI.Models.Requests;
 
 namespace MedicalHelper.WebAPI.MappingProfiles
 {
@@ -26,7 +27,9 @@ namespace MedicalHelper.WebAPI.MappingProfiles
            
             CreateMap<UserProfileDto, UserProfile>();
             CreateMap<UserProfile, UserProfileDto>();
-            
+
+            CreateMap<RegisterUserRequestModel, UserDto>()
+                .ForMember(dto => dto.PasswordHash,opt => opt.MapFrom(entity => entity.Password));
         }
     }
 }

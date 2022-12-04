@@ -20,6 +20,12 @@ namespace MedicalHelper.Repositories
                 .SingleOrDefaultAsync(x => x.Email == email && x.PasswordHash == passwordHash);
         }
 
+        public async Task<User?> GetUserByEmailAsync(string email)
+        {
+            return await _dbSet
+                .SingleOrDefaultAsync(x => x.Email == email);
+        }
+
         //public bool Exist(string email)
         //{
         //    return _dbSet.Any(x => x.Email == email);

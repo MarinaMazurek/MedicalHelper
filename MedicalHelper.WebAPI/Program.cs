@@ -6,6 +6,10 @@ using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Repositories;
 using Microsoft.EntityFrameworkCore;
 using MedicalHelper.DataBase;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using MedicalHelper.WebAPI.Utils;
 
 namespace MedicalHelper.WebAPI
 {
@@ -29,7 +33,6 @@ namespace MedicalHelper.WebAPI
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserProfileService, UserProfileService>();
@@ -37,32 +40,48 @@ namespace MedicalHelper.WebAPI
             builder.Services.AddScoped<IMedicineService, MedicineService>();
             builder.Services.AddScoped<IVaccinationService, VaccinationService>();
 
-
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             builder.Services.AddScoped<IVisitRepository, VisitRepository>();
             builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
             builder.Services.AddScoped<IVaccinationRepository, VaccinationRepository>();
-
             builder.Services.AddScoped<IRepository<Role>, Repository<Role>>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IJwtUtilSha256, JwtUtilSha256>();
 
             builder.Services.AddHttpContextAccessor();
 
+            builder.Services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(opt =>
+                {
+                    opt.RequireHttpsMetadata = false;
+                    opt.SaveToken = true;
+                    opt.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidIssuer = builder.Configuration["Token:Issuer"],
+                        ValidAudience = builder.Configuration["Token:Issuer"],
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:JwtSecret"])),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
