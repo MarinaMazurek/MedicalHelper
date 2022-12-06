@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MedicalHelper.WebAPI.Utils;
+using MediatR;
+using MedicalHelper.Data.CQS.Commands;
 
 namespace MedicalHelper.WebAPI
 {
@@ -51,6 +53,8 @@ namespace MedicalHelper.WebAPI
             builder.Services.AddScoped<IJwtUtilSha256, JwtUtilSha256>();
 
             builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddMediatR(typeof(AddVisitCommand).Assembly);
 
             builder.Services
                 .AddAuthentication(options =>

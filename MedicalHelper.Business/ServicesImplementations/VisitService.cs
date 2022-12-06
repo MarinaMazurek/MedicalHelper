@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using MediatR;
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Data.Abstractions;
-using MedicalHelper.DataBase.Entities;
+using MedicalHelper.Data.CQS.Commands;
+using MedicalHelper.Data.CQS.Queries;
 
 namespace MedicalHelper.Business.ServicesImplementations
 {
@@ -10,17 +12,18 @@ namespace MedicalHelper.Business.ServicesImplementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-        public VisitService(IUnitOfWork unitOfWork, IMapper mapper)
+        public VisitService(IUnitOfWork unitOfWork, IMapper mapper, IMediator mediator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         public async Task AddAsync(VisitDto visitDto)
         {
-            var entity = _mapper.Map<Visit>(visitDto);
-            await _unitOfWork.Visits.AddAsync(entity);
+            await _mediator.Send(new AddVisitCommand() { Visit = visitDto });
         }
 
         public async Task DeleteVisitByIdAsync(Guid id)
@@ -31,7 +34,12 @@ namespace MedicalHelper.Business.ServicesImplementations
 
         public async Task<VisitDto> GetVisitByIdAsync(Guid id)
         {
-            var entity = await _unitOfWork.Visits.GetEntityByIdAsync(id);
+            // implementation by _unitOfWork
+            //var entity = await _unitOfWork.Visits.GetEntityByIdAsync(id);
+
+            // implementation by _mediator
+            var entity = await _mediator.Send(new GetVisitByIdQuery() { Id = id });
+
             var visitDto = _mapper.Map<VisitDto>(entity);
             return visitDto;
         }

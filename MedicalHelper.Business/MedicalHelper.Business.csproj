@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MedicalHelper.Core\MedicalHelper.Core.csproj" />
+    <ProjectReference Include="..\MedicalHelper.Data.CQS\MedicalHelper.Data.CQS.csproj" />
     <ProjectReference Include="..\MedicalHelper.DataBase\MedicalHelper.DataBase.csproj" />
     <ProjectReference Include="..\MedicalHelper.Repositories\MedicalHelper.Repositories.csproj" />
   </ItemGroup>

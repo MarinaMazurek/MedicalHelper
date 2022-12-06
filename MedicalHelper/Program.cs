@@ -1,7 +1,9 @@
+using MediatR;
 using MedicalHelper.Business.ServicesImplementations;
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Data.Abstractions;
 using MedicalHelper.Data.Abstractions.Repositories;
+using MedicalHelper.Data.CQS.Commands;
 using MedicalHelper.DataBase;
 using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Extantions;
@@ -62,9 +64,9 @@ namespace MedicalHelper
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-
             builder.Configuration.AddJsonFile("secrets.json");
 
+            builder.Services.AddMediatR(typeof(AddVisitCommand).Assembly);
 
             builder.Services.AddHttpContextAccessor();
 
