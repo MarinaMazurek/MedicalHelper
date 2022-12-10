@@ -47,6 +47,12 @@ namespace MedicalHelper.Business.ServicesImplementations
         public async Task<List<VisitDto>> GetAllVisitsAsync(Guid userId)
         {
             var entities = await _unitOfWork.Visits.GetAllVisitsByUserIdAsync(userId);
+
+            if (!entities.Any() || entities.Count == 0)
+            {
+                return new List<VisitDto>();
+            }
+
             var visitsDto = _mapper.Map<List<VisitDto>>(entities);
             return visitsDto;
         }
