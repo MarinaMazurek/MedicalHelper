@@ -5,6 +5,7 @@ using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Data.Abstractions;
 using MedicalHelper.Data.CQS.Commands;
 using MedicalHelper.Data.CQS.Queries;
+using MedicalHelper.DataBase.Entities;
 
 namespace MedicalHelper.Business.ServicesImplementations
 {
@@ -21,9 +22,10 @@ namespace MedicalHelper.Business.ServicesImplementations
             _mediator = mediator;
         }
 
-        public async Task AddAsync(VisitDto visitDto)
+        public async Task<Visit> AddAsync(VisitDto visitDto)
         {
-            await _mediator.Send(new AddVisitCommand() { Visit = visitDto });
+            var visitDb = await _mediator.Send(new AddVisitCommand() { Visit = visitDto });
+            return visitDb;
         }
 
         public async Task DeleteVisitByIdAsync(Guid id)

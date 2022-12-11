@@ -42,7 +42,7 @@ namespace MedicalHelper.Controllers
             return RedirectToAction("GetAllVisits");
         }
 
-        [HttpDelete]
+        [HttpGet]
         public async Task<IActionResult> VisitDelete(Guid id)
         {
             await _visitService.DeleteVisitByIdAsync(id);

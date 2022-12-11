@@ -29,7 +29,7 @@ namespace MedicalHelper.WebAPI.Utils
                 new Claim(JwtRegisteredClaimNames.Sub, dto.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("D")), //jwt uniq id from spec
                 new Claim(ClaimTypes.NameIdentifier, dto.Id.ToString("D")),
-                new Claim(ClaimTypes.Role, dto.RoleName)
+                new Claim("Id", dto.Id.ToString())
             };
 
             var jwtToken = new JwtSecurityToken(_configuration["Token:Issuer"],

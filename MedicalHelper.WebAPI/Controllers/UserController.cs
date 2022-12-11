@@ -17,14 +17,16 @@ namespace MedicalHelper.WebAPI.Controllers
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
         private readonly IJwtUtilSha256 _jwtUtil;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserController(IUserService userService, 
-            IRoleService roleService, IMapper mapper, IJwtUtilSha256 jwtUtil)
+        public UserController(IUserService userService,
+            IRoleService roleService, IMapper mapper, IJwtUtilSha256 jwtUtil, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
             _roleService = roleService;
             _mapper = mapper;
             _jwtUtil = jwtUtil;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet("GetUserById")]

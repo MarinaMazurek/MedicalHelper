@@ -173,10 +173,11 @@ namespace MedicalHelper.WebAPI.Controllers
             return Ok();
         }
 
-
-
-
-
+        /// <summary>
+        /// Add Visit
+        /// </summary>
+        /// <param name="visitModel">Visit model to save</param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> VisitAdd(VisitModel visitModel)
@@ -186,9 +187,9 @@ namespace MedicalHelper.WebAPI.Controllers
             var visitDto = _mapper.Map<VisitDto>(visitModel);
             visitDto.UserId = userDto.Id;
 
-            await _visitService.AddAsync(visitDto);
+            var visitDb = await _visitService.AddAsync(visitDto);
 
-            return RedirectToAction("GetAllVisits");
+            return Ok(visitDb);
         }
     }
 }

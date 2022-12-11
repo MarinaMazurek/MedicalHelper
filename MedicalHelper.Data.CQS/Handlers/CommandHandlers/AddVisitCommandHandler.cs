@@ -6,7 +6,7 @@ using MedicalHelper.DataBase.Entities;
 
 namespace MedicalHelper.Data.CQS.Handlers.CommandHandlers
 {
-    public class AddVisitCommandHandler : IRequestHandler<AddVisitCommand, Unit>
+    public class AddVisitCommandHandler : IRequestHandler<AddVisitCommand, Visit>
     {
         private readonly MedicalHelperDbContext _context;
         private readonly IMapper _mapper;
@@ -17,15 +17,15 @@ namespace MedicalHelper.Data.CQS.Handlers.CommandHandlers
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(AddVisitCommand command, CancellationToken token)
+        public async Task<Visit> Handle(AddVisitCommand command, CancellationToken token)
         {
             var visitDto = command.Visit;
             var entity = _mapper.Map<Visit>(visitDto);
 
-            await _context.Visits.AddAsync(entity, token);
+            var visitDb = await _context.Visits.AddAsync(entity, token);
             await _context.SaveChangesAsync(token);
 
-            return Unit.Value;
+            return visitDb.Entity;
         }
     }
 }
