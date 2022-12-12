@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
-using MedicalHelper.DataBase.Entities;
 using MedicalHelper.Models.Visit;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MedicalHelper.Controllers
 {
@@ -12,20 +10,18 @@ namespace MedicalHelper.Controllers
     {
         private readonly IUserService _userService;
         private readonly IVisitService _visitService;
-        private readonly IMedicineService _medicineService;
         private readonly IMapper _mapper;
 
         public VisitController(IUserService userService, IVisitService visitService, IMapper mapper, IMedicineService medicineService)
         {
             _userService = userService;
             _visitService = visitService;
-            _medicineService = medicineService;
-            _mapper = mapper;            
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> VisitAdd()
-        {            
+        {
             return View();
         }
 
@@ -46,7 +42,7 @@ namespace MedicalHelper.Controllers
         public async Task<IActionResult> VisitDelete(Guid id)
         {
             await _visitService.DeleteVisitByIdAsync(id);
-            
+
             return RedirectToAction("GetAllVisits");
         }
 
@@ -56,7 +52,7 @@ namespace MedicalHelper.Controllers
             var visitDto = await _visitService.GetVisitByIdAsync(id);
 
             var viewModel = _mapper.Map<VisitViewModel>(visitDto);
-            
+
             return View(viewModel);
         }
 

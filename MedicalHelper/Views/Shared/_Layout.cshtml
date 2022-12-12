@@ -31,30 +31,30 @@
                             
             @if (!User.Identity.IsAuthenticated)
             {
-                <div><a href="/User/Login"> Sign in </a></div>
-                <div><a href="/User/Register"> Create an account </a></div>
+                <div><a href="/User/Login" style="text-decoration:none;"> Sign in </a></div>
+                <div><a href="/User/Register" style="text-decoration:none;"> Create an account </a></div>
             }
 
             @if (User.Identity.IsAuthenticated)
             {
-                <div><a href="/UserProfile/MyProfile"> My Profile </a></div>
+                <div><a href="/UserProfile/MyProfile" style="text-decoration:none;"> My Profile </a></div>
 
-                <div><a href="/Visit/VisitAdd"> Add visit </a></div>
-                <div><a href="/Visit/GetAllVisits"> All my visits </a></div>
+                <div><a href="/Visit/VisitAdd" style="text-decoration:none;"> Add visit </a></div>
+                <div><a href="/Visit/GetAllVisits" style="text-decoration:none;"> All my visits </a></div>
 
-                <div><a href="/Medicine/MedicineAdd"> Add Medicine </a></div>
-                <div><a href="/Medicine/GetAllMedicine"> All Medicines </a></div>
+                <div><a href="/Medicine/MedicineAdd" style="text-decoration:none;"> Add Medicine </a></div>
+                <div><a href="/Medicine/GetAllMedicine" style="text-decoration:none;"> All Medicines </a></div>
 
-                <div><a href="/Vaccination/VaccinationAdd"> Add Vaccinations </a></div>
-                <div><a href="/Vaccination/GetAllUserVaccinations"> All Vaccinations </a></div>
+                <div><a href="/Vaccination/VaccinationAdd" style="text-decoration:none;"> Add Vaccinations </a></div>
+                <div><a href="/Vaccination/GetAllUserVaccinations" style="text-decoration:none;"> All Vaccinations </a></div>
                                
                 @if (userService.IsAdmin())
                 {
-                    <div><a href="/User/GetAllUsers"> Get All Users </a></div>
-                    <div><a href="/UserProfile/GetAllUserProfiles"> Get All UserProfiles </a></div>
+                    <div><a href="/User/GetAllUsers" style="text-decoration:none;"> Get All Users </a></div>
+                    <div><a href="/UserProfile/GetAllUserProfiles" style="text-decoration:none;"> Get All UserProfiles </a></div>
                 }
 
-                <div><a href="/User/Logout"> Exit </a></div>
+                <div><a href="/User/Logout" style="text-decoration:none;"> Exit </a></div>
             }
                         
             </div>
