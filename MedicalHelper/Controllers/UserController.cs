@@ -52,7 +52,9 @@ namespace MedicalHelper.Controllers
                 var userDtoForId = await _userService
                     .GetUserByEmailAndPasswordAsync(viewModel.Email, viewModel.Password);
 
-                await HttpContext.SignInAsync(_userService.GetPrincipal(userDtoForId));
+                var claims = _userService.GetPrincipal(userDtoForId);
+
+                await HttpContext.SignInAsync(claims);
 
                 return RedirectToAction("UserProfileAdd", "UserProfile");
             }

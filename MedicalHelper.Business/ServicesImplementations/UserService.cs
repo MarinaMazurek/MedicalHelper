@@ -97,7 +97,7 @@ namespace MedicalHelper.Business.ServicesImplementations
             return await _unitOfWork.Users.GetEntityByIdAsync(id);
         }
 
-        public ClaimsPrincipal GetPrincipal(UserDto userDto)
+        public ClaimsPrincipal GetPrincipal(UserDto userDto)  
         {
             var claims = new List<Claim>
             {
