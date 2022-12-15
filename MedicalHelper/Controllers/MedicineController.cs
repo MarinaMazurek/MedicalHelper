@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using MedicalHelper.Business.ServicesImplementations;
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
 
 namespace MedicalHelper.Controllers
 {
@@ -15,7 +13,7 @@ namespace MedicalHelper.Controllers
         private readonly IVisitService _visitService;
         private readonly IMedicineService _medicineService;
         private readonly IMapper _mapper;
-        public MedicineController(IUserService userService, IVisitService visitService, 
+        public MedicineController(IUserService userService, IVisitService visitService,
             IMedicineService medicineService, IMapper mapper)
         {
             _userService = userService;
@@ -28,11 +26,11 @@ namespace MedicalHelper.Controllers
         public async Task<IActionResult> MedicineAdd()
         {
             var currentUser = await _userService.GetCurrentUserAsync();
-            
+
             var allVisitsDto = await _visitService.GetAllVisitsAsync(currentUser.Id);
 
             ViewBag.Visits = new SelectList(allVisitsDto, "Id", "Name");
-            
+
             return View();
         }
 

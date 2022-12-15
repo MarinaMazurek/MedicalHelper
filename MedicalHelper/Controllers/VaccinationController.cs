@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using MedicalHelper.Business.ServicesImplementations;
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Models;
-using MedicalHelper.Models.Visit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHelper.Controllers

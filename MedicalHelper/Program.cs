@@ -6,7 +6,6 @@ using MedicalHelper.Data.Abstractions.Repositories;
 using MedicalHelper.Data.CQS.Commands;
 using MedicalHelper.DataBase;
 using MedicalHelper.DataBase.Entities;
-using MedicalHelper.Extantions;
 using MedicalHelper.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,9 +31,6 @@ namespace MedicalHelper
             builder.Services.AddDbContext<MedicalHelperDbContext>(
                 optionsBuilder => optionsBuilder.UseSqlServer(connectionString));
 
-            //builder.Services.AddDbContext<MedicalHelperDbContext>();
-
-
             builder.Services.Configure<IISServerOptions>(options =>
             {
                 options.AutomaticAuthentication = false;
@@ -44,7 +40,6 @@ namespace MedicalHelper
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-                       
 
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IUserService, UserService>();
@@ -53,13 +48,11 @@ namespace MedicalHelper
             builder.Services.AddScoped<IMedicineService, MedicineService>();
             builder.Services.AddScoped<IVaccinationService, VaccinationService>();
 
-
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             builder.Services.AddScoped<IVisitRepository, VisitRepository>();
             builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
             builder.Services.AddScoped<IVaccinationRepository, VaccinationRepository>();
-            
             builder.Services.AddScoped<IRepository<Role>, Repository<Role>>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -71,7 +64,6 @@ namespace MedicalHelper
             builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
-
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -91,8 +83,6 @@ namespace MedicalHelper
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            
-            app.Seed();
 
             app.Run();
         }

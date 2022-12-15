@@ -1,12 +1,5 @@
-﻿using MedicalHelper.DataBase;
-using MedicalHelper.DataBase.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MedicalHelper.DataBase.Entities;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalHelper.Data.Abstractions.Repositories
 {
@@ -28,8 +21,7 @@ namespace MedicalHelper.Data.Abstractions.Repositories
         void Update(T entity);
         //Task PatchAsync(Guid id, List<PatchModel> patchData);
 
-
         //DELETE
-        void Remove(T entity);           
+        void Remove(T entity);
     }
 }

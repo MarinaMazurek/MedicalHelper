@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MedicalHelper.Business.ServicesImplementations;
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.Models.User;
@@ -44,11 +43,11 @@ namespace MedicalHelper.Controllers
             if (userDtoReturn == null)
             {
                 var userDto = _mapper.Map<UserDto>(viewModel);
-                
+
                 userDto.RoleId = userRoleId.Value;
 
                 await _userService.AddAsync(userDto);
-                                
+
                 var userDtoForId = await _userService
                     .GetUserByEmailAndPasswordAsync(viewModel.Email, viewModel.Password);
 
@@ -72,18 +71,18 @@ namespace MedicalHelper.Controllers
             try
             {
                 var isExist = await _userService.IsEmailExistAsync(email);
-                
+
                 if (isExist)
                 {
                     return Ok(false);
                 }
                 return Ok(true);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //Log.Error(e, e.Message);
                 return StatusCode(500);
-            }           
+            }
         }
 
         [HttpGet]

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MedicalHelper.Core.DataTransferObjects
+﻿namespace MedicalHelper.Core.DataTransferObjects
 {
     public class VaccinationDto
     {
@@ -13,6 +7,6 @@ namespace MedicalHelper.Core.DataTransferObjects
         public DateTime Date { get; set; }
 
         public Guid UserId { get; set; }
-        
+
     }
 }

@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using MedicalHelper.Business.ServicesImplementations;
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
-using MedicalHelper.DataBase.Entities;
-using MedicalHelper.Models.User;
 using MedicalHelper.Models.UserProfile;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +12,7 @@ namespace MedicalHelper.Controllers
         private readonly IUserProfileService _userProfileService;
         private readonly IMapper _mapper;
 
-        public UserProfileController(IUserService userService, 
+        public UserProfileController(IUserService userService,
             IUserProfileService userProfileService, IMapper mapper)
         {
             _userService = userService;
@@ -41,13 +38,13 @@ namespace MedicalHelper.Controllers
             var userDto = await _userService.GetCurrentUserAsync();
 
             var userProfileDto = _mapper.Map<UserProfileDto>(viewModel);
-            userProfileDto.UserId = userDto.Id;            
+            userProfileDto.UserId = userDto.Id;
 
             await _userProfileService.AddAsync(userProfileDto);
 
             return RedirectToAction("MyProfile");
         }
-                
+
         [HttpGet]
         public async Task<IActionResult> MyProfile()
         {
@@ -55,17 +52,17 @@ namespace MedicalHelper.Controllers
             var userProfileDto = await _userProfileService
                 .GetUserProfileByUserIdAsync(userDto.Id);
 
-            var userProfileViewModel = _mapper.Map<UserProfileViewModel>(userProfileDto);         
-                       
+            var userProfileViewModel = _mapper.Map<UserProfileViewModel>(userProfileDto);
+
             return View(userProfileViewModel);
         }
-                
+
         [HttpGet]
         public async Task<IActionResult> GetAllUserProfiles()
         {
             var allUserProfilesDto = await _userProfileService.GetAllUserProfilesAsync();
 
-            var viewModels = _mapper.Map<List<UserProfileViewModel>>(allUserProfilesDto); 
+            var viewModels = _mapper.Map<List<UserProfileViewModel>>(allUserProfilesDto);
 
             return View(viewModels);
         }
