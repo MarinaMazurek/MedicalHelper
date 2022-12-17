@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
-using MedicalHelper.DataBase.Entities;
 using MedicalHelper.WebAPI.Models;
 using MedicalHelper.WebAPI.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MedicalHelper.WebAPI.Controllers
 {
@@ -16,14 +14,12 @@ namespace MedicalHelper.WebAPI.Controllers
     {
         private readonly IUserService _userService;
         private readonly IVisitService _visitService;
-        private readonly IMedicineService _medicineService;
         private readonly IMapper _mapper;
 
-        public VisitController(IUserService userService, IVisitService visitService, IMapper mapper, IMedicineService medicineService)
+        public VisitController(IUserService userService, IVisitService visitService, IMapper mapper)
         {
             _userService = userService;
             _visitService = visitService;
-            _medicineService = medicineService;
             _mapper = mapper;
         }
 
@@ -37,37 +33,55 @@ namespace MedicalHelper.WebAPI.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetVisitById(Guid id)
         {
-            var visitDto = await _visitService.GetVisitByIdAsync(id);
-
-            if (visitDto == null)
+            try
             {
-                return NotFound();
-            }
+                var visitDto = await _visitService.GetVisitByIdAsync(id);
 
-            var visit = _mapper.Map<VisitModel>(visitDto);
-            return Ok(visit);
+                if (visitDto == null)
+                {
+                    return NotFound();
+                }
+
+                var visit = _mapper.Map<VisitModel>(visitDto);
+                return Ok(visit);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new ErrorModel { Message = ex.Message });
+            }
         }
 
         /// <summary>
         /// Get user visits
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("all")]
         [ProducesResponseType(typeof(List<VisitModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllVisits()
         {
-            //TODO: var userDto = await _userService.GetCurrentUserAsync();
-            
-            var allVisitsDto = await _visitService.GetAllVisitsAsync(new Guid("87f738b6-acae-4839-0182-08dad2432688"));
-            
-            if (allVisitsDto == null || !allVisitsDto.Any())
+            try
             {
-                return NotFound();
-            }
+                var userDto = await _userService.GetCurrentUserAsync();
+                if (userDto == null)
+                {
+                    return NotFound();
+                }
 
-            var viewModels = _mapper.Map<List<VisitModel>>(allVisitsDto);
-            return Ok(viewModels);
+                var allVisitsDto = await _visitService.GetAllVisitsAsync(userDto.Id);
+                if (allVisitsDto == null || !allVisitsDto.Any())
+                {
+                    return NotFound();
+                }
+
+                var visits = _mapper.Map<List<VisitModel>>(allVisitsDto);
+                return Ok(visits);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new ErrorModel { Message = ex.Message });
+            }
         }
 
         /// <summary>
@@ -103,32 +117,40 @@ namespace MedicalHelper.WebAPI.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateVisit(Guid id, [FromBody] UpdateVisitModel? visitModel)
         {
-            if (visitModel == null)
+            try
             {
-                return BadRequest();
+                if (visitModel == null)
+                {
+                    return BadRequest();
+                }
+
+                var oldVisit = await _visitService.GetVisitByIdAsync(id);
+
+                if (oldVisit == null)
+                {
+                    return NotFound();
+                }
+
+                var newVisit = new VisitDto()
+                {
+                    Id = oldVisit.Id,
+                    Name = visitModel.Name,
+                    Specialization = visitModel.Specialization,
+                    FullNameOfDoctor = visitModel.FullNameOfDoctor,
+                    DateTime = visitModel.DateTime,
+                    UserId = new Guid("87f738b6-acae-4839-0182-08dad2432688")
+                };
+
+                await _visitService.DeleteVisitByIdAsync(id);
+                await _visitService.AddAsync(newVisit);
+
+                return Ok();
+
             }
-
-            var oldVisit = await _visitService.GetVisitByIdAsync(id);
-            
-            if (oldVisit == null)
+            catch (ArgumentException ex)
             {
-                return NotFound();
+                return BadRequest(new ErrorModel { Message = ex.Message });
             }
-
-            var newVisit = new VisitDto()
-            {
-                Id = oldVisit.Id,
-                Name = visitModel.Name,
-                Specialization = visitModel.Specialization,
-                FullNameOfDoctor = visitModel.FullNameOfDoctor,
-                DateTime = visitModel.DateTime,
-                UserId = new Guid("87f738b6-acae-4839-0182-08dad2432688")
-            };
-
-            await _visitService.DeleteVisitByIdAsync(id);
-            await _visitService.AddAsync(newVisit);
-
-            return Ok();
         }
 
         /// <summary>
@@ -143,34 +165,40 @@ namespace MedicalHelper.WebAPI.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateVisit(Guid id, [FromBody] PatchVisitModel? visitModel)
         {
-            if (visitModel == null)
+            try
             {
-                return BadRequest();
+                if (visitModel == null)
+                {
+                    return BadRequest();
+                }
+
+                var oldVisit = await _visitService.GetVisitByIdAsync(id);
+                if (oldVisit == null)
+                {
+                    return NotFound();
+                }
+
+                var newVisit = new VisitDto()
+                {
+                    Id = oldVisit.Id,
+                    Name = oldVisit.Name,
+                    Specialization = oldVisit.Specialization,
+                    SpecializationOfDoctor = oldVisit.SpecializationOfDoctor,
+                    FullNameOfDoctor = visitModel.FullNameOfDoctor,
+                    DateTime = oldVisit.DateTime,
+                    Medicines = oldVisit.Medicines,
+                    UserId = new Guid("87f738b6-acae-4839-0182-08dad2432688")
+                };
+
+                await _visitService.DeleteVisitByIdAsync(id);
+                await _visitService.AddAsync(newVisit);
+
+                return Ok();
             }
-
-            var oldVisit = await _visitService.GetVisitByIdAsync(id);
-
-            if (oldVisit == null)
+            catch (ArgumentException ex)
             {
-                return NotFound();
+                return BadRequest(new ErrorModel { Message = ex.Message });
             }
-
-            var newVisit = new VisitDto()
-            {
-                Id = oldVisit.Id,
-                Name = oldVisit.Name,
-                Specialization = oldVisit.Specialization,
-                SpecializationOfDoctor = oldVisit.SpecializationOfDoctor,
-                FullNameOfDoctor = visitModel.FullNameOfDoctor,
-                DateTime = oldVisit.DateTime,
-                Medicines = oldVisit.Medicines,
-                UserId = new Guid("87f738b6-acae-4839-0182-08dad2432688")
-            };
-
-            await _visitService.DeleteVisitByIdAsync(id);
-            await _visitService.AddAsync(newVisit);
-
-            return Ok();
         }
 
         /// <summary>
@@ -182,14 +210,25 @@ namespace MedicalHelper.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> VisitAdd(VisitModel visitModel)
         {
-            var userDto = await _userService.GetCurrentUserAsync();
+            try
+            {
+                var userDto = await _userService.GetCurrentUserAsync();
+                if (userDto == null)
+                {
+                    return NotFound();
+                }
 
-            var visitDto = _mapper.Map<VisitDto>(visitModel);
-            visitDto.UserId = userDto.Id;
+                var visitDto = _mapper.Map<VisitDto>(visitModel);
+                visitDto.UserId = userDto.Id;
 
-            var visitDb = await _visitService.AddAsync(visitDto);
+                var visitDb = await _visitService.AddAsync(visitDto);
 
-            return Ok(visitDb);
+                return Ok(visitDb);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new ErrorModel { Message = ex.Message });
+            }
         }
     }
 }

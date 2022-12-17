@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MedicalHelper.Core.Abstractions;
+﻿using MedicalHelper.Core.Abstractions;
 using MedicalHelper.WebAPI.Models.Requests;
 using MedicalHelper.WebAPI.Models.Responses;
 using MedicalHelper.WebAPI.Utils;
@@ -13,20 +12,16 @@ namespace MedicalHelper.WebAPI.Controllers
     public class TokenController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IMapper _mapper;
         private readonly IJwtUtilSha256 _jwtUtil;
 
-        public TokenController(IUserService userService,
-            IMapper mapper, 
-            IJwtUtilSha256 jwtUtil)
+        public TokenController(IUserService userService, IJwtUtilSha256 jwtUtil)
         {
             _userService = userService;
-            _mapper = mapper;
             _jwtUtil = jwtUtil;
         }
 
         /// <summary>
-        /// Register user
+        /// Login user
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

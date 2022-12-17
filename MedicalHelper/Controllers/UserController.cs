@@ -108,8 +108,7 @@ namespace MedicalHelper.Controllers
             }
 
             await HttpContext.SignInAsync(_userService.GetPrincipal(userDtoReturn));
-
-            // TO DO
+            
             return RedirectToAction("MyProfile", "UserProfile");
         }
 

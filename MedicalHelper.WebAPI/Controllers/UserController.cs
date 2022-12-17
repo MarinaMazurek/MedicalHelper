@@ -2,8 +2,8 @@
 using MedicalHelper.Core.Abstractions;
 using MedicalHelper.Core.DataTransferObjects;
 using MedicalHelper.WebAPI.Models.Requests;
+using MedicalHelper.WebAPI.Models.Responses;
 using MedicalHelper.WebAPI.Utils;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -17,35 +17,62 @@ namespace MedicalHelper.WebAPI.Controllers
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
         private readonly IJwtUtilSha256 _jwtUtil;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserController(IUserService userService,
-            IRoleService roleService, IMapper mapper, IJwtUtilSha256 jwtUtil, IHttpContextAccessor httpContextAccessor)
+            IRoleService roleService,
+            IMapper mapper,
+            IJwtUtilSha256 jwtUtil)
         {
             _userService = userService;
             _roleService = roleService;
             _mapper = mapper;
             _jwtUtil = jwtUtil;
-            _httpContextAccessor = httpContextAccessor;
         }
 
+        /// <summary>
+        /// Get user by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("GetUserById")]
         public async Task<IActionResult> GetUserById(Guid id)
         {
-            var userDto = await _userService.GetUserByIdAsync(id);
-            return Ok(userDto);
+            try
+            {
+                var userDto = await _userService.GetUserByIdAsync(id);
+                return Ok(userDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new ErrorModel { Message = ex.Message });
+            }
         }
 
-        [Authorize]
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var allUsersDto = await _userService.GetAllUsersAsync();
-            return Ok(allUsersDto);
+            try
+            {
+                var allUsersDto = await _userService.GetAllUsersAsync();
+                return Ok(allUsersDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new ErrorModel { Message = ex.Message });
+            }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(RegisterUserRequestModel model)
+        /// <summary>
+        /// Register
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(RegisterUserRequestModel model)
         {
             try
             {
@@ -59,8 +86,7 @@ namespace MedicalHelper.WebAPI.Controllers
 
                 if (userDto != null && userRoleId != null && userDtoReturn == null)
                 {
-                    
-                    userDto.Id = Guid.NewGuid();                                       
+                    userDto.Id = Guid.NewGuid();
 
                     await _userService.AddAsync(userDto);
 
