@@ -17,7 +17,7 @@ namespace MedicalHelper.Business.Tests
         [Fact]
         public async void GetAllVisitsAsync_CorrectData_ReturnAllVisits()
         {
-            //arrange
+            //arrange (подготовка)
             Guid userId = Guid.NewGuid();
             List<Visit> visitsInDb = new List<Visit>()
             {
@@ -25,8 +25,7 @@ namespace MedicalHelper.Business.Tests
             };
             List<VisitDto> visitsDtos = new List<VisitDto>()
             {
-                new VisitDto { Name = "test visit" },
-                new VisitDto { Name = "test visit 2" }
+                new VisitDto { Name = "test visit" },                
             };
 
             _unitOfWorkMock.Setup(x => x.Visits.GetAllVisitsByUserIdAsync(It.IsAny<Guid>()))
@@ -38,12 +37,11 @@ namespace MedicalHelper.Business.Tests
             var visitService = GetService();
             var result = await visitService.GetAllVisitsAsync(userId);
 
-            //asserts
+            //asserts (проверка)
             Assert.NotNull(result);
             Assert.NotEmpty(result);
             Assert.True(result.Any());
             Assert.Equal("test visit", result.First().Name);
-            Assert.Equal("test visit 2", result.Last().Name);
         }
 
         [Fact]

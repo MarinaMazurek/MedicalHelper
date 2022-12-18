@@ -5,6 +5,7 @@ using MedicalHelper.Models.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace MedicalHelper.Controllers
 {
@@ -55,12 +56,14 @@ namespace MedicalHelper.Controllers
 
                 await HttpContext.SignInAsync(claims);
 
+                Log.Information("New user was added");
+
                 return RedirectToAction("UserProfileAdd", "UserProfile");
             }
             else
             {
                 ModelState.AddModelError(nameof(RegistrationViewModel.Email),
-                    "Пользователь с указанным логином уже существует");
+                    "User with this login already exists");
                 return View(viewModel);
             }
         }
@@ -80,7 +83,7 @@ namespace MedicalHelper.Controllers
             }
             catch (Exception e)
             {
-                //Log.Error(e, e.Message);
+                Log.Error(e, e.Message);
                 return StatusCode(500);
             }
         }
@@ -138,7 +141,6 @@ namespace MedicalHelper.Controllers
             return View(viewModels);
         }
 
-
         [HttpGet]
         public async Task<IActionResult> UserLoginPreview()
         {
@@ -147,7 +149,6 @@ namespace MedicalHelper.Controllers
 
             return View(user);
         }
-
 
         [HttpGet]
         [Authorize]

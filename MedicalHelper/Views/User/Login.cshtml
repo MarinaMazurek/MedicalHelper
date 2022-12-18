@@ -4,11 +4,13 @@
     <form action="/User/Login" method="post">
                 
         <label class="login-input">
-            Login
             <div>
-                @Html.TextBoxFor(x => x.Email)
-                @Html.ValidationMessageFor(x => x.Email)
-            </div>
+            Login
+
+            @Html.TextBoxFor(x => x.Email)
+            @Html.ValidationMessageFor(x => x.Email)
+            </div>            
+            
         </label>
         <label class="login-input">
             Password
@@ -17,5 +19,7 @@
         @*@Html.ValidationMessageFor(x => x.PasswordHash)*@
 
         </label>
+        <div>
         <input type="submit" value="Enter" />
+        </div>        
     </form>

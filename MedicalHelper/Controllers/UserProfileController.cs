@@ -28,13 +28,7 @@ namespace MedicalHelper.Controllers
 
         [HttpPost]
         public async Task<IActionResult> UserProfileAdd(UserProfileAddViewModel viewModel)
-        {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(viewModel);
-            //    //сообщение
-            //}
-
+        {           
             var userDto = await _userService.GetCurrentUserAsync();
 
             var userProfileDto = _mapper.Map<UserProfileDto>(viewModel);
